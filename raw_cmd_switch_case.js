@@ -1,4 +1,4 @@
-// Achieved from: raw_app.js @ line 25032
+// Achieved from: raw_app.js @ line 24978
 // Achieved date: Jan 21 2021
 // Achieved by: Xuan525
 
@@ -45,21 +45,26 @@ switch (t.cmd) {
                       t.next = 13;
                       break;
                     }
-                    return (t.next = 7), n.e(5).then(n.bind(null, 2182));
+                    return (
+                      (t.next = 7), n.e(5).then(n.bind(null, 2182))
+                    );
                   case 7:
                     return (
-                      (r = t.sent), (i = r.loadCutOffMsg), (t.next = 11), i()
+                      (r = t.sent),
+                      (i = r.loadCutOffMsg),
+                      (t.next = 11),
+                      i()
                     );
                   case 11:
                     t.next = 14;
                     break;
                   case 13:
                     Object(l.b)({
-                      title: "ç³»ç»Ÿé€šçŸ¥",
-                      content: "å½“å‰ç›´æ’­é—´è¢«ç›´æ’­ç®¡ç†å‘˜åˆ‡æ–­ç›´æ’­ã€‚",
+                      title: "系统通知",
+                      content: "当前直播间被直播管理员切断直播。",
                       width: 300,
                       button: {
-                        confirm: "æ‚²ç—›æ¬²ç» " + f.randomEmoji.sad(),
+                        confirm: "悲痛欲绝 " + f.randomEmoji.sad(),
                         cancel: !1,
                       },
                     });
@@ -99,9 +104,9 @@ switch (t.cmd) {
                     u.a.getters.baseInfoUser.isAnchor
                       ? ((n = t.msg),
                         Object(l.b)({
-                          title: "å‹æƒ…æç¤º",
+                          title: "友情提示",
                           width: 300,
-                          button: { confirm: "çŸ¥é“äº†", cancel: !1 },
+                          button: { confirm: "知道了", cancel: !1 },
                           content: n,
                           hideMask: !0,
                         }))
@@ -125,7 +130,8 @@ switch (t.cmd) {
         n = t.info[2][0],
         r = t.info[0][9];
       (Y && Z.indexOf(r) > -1) ||
-        (window.BilibiliLive.UID === n && window.BilibiliLive.RND === e) ||
+        (window.BilibiliLive.UID === n &&
+          window.BilibiliLive.RND === e) ||
         Object(F.c)(Object(U.n)(t.info));
     })(t);
     break;
@@ -202,7 +208,8 @@ switch (t.cmd) {
     !(function (t) {
       var e = u.a.getters.baseInfoAnchor.uid,
         n =
-          (u.a.getters.baseInfoAnchor.username, u.a.getters.baseInfoUser.medal),
+          (u.a.getters.baseInfoAnchor.username,
+          u.a.getters.baseInfoUser.medal),
         r = u.a.getters.baseInfoUser.uid;
       if (e === t.data.up_uid && e !== r) {
         Object(Wt.a)(t.data.toast, "info"), Object(Ht.c)();
@@ -250,9 +257,11 @@ switch (t.cmd) {
         }
         t.data.unlock &&
           (t.data.multi_unlock_level
-            ? t.data.multi_unlock_level.split(",").forEach(function (t) {
-                Object(Ht.g)(t);
-              })
+            ? t.data.multi_unlock_level
+                .split(",")
+                .forEach(function (t) {
+                  Object(Ht.g)(t);
+                })
             : Object(Ht.g)(t.data.unlock_level));
       }
       n === t.data.up_uid &&
@@ -286,7 +295,8 @@ switch (t.cmd) {
         n.platform.web &&
         n.msg &&
         (0 === n.type ||
-          (1 === n.type && n.room_id === u.a.getters.baseInfoRoom.roomID)) &&
+          (1 === n.type &&
+            n.room_id === u.a.getters.baseInfoRoom.roomID)) &&
         Object(Wt.a)(e.data.msg, "info");
     })(t);
     break;
@@ -637,7 +647,9 @@ switch (t.cmd) {
                 switch ((e.prev = e.next)) {
                   case 0:
                     (n = u.a.getters.baseInfoUser.isAnchor),
-                      ["area_top1", "anchor_reward"].includes(t.action) &&
+                      ["area_top1", "anchor_reward"].includes(
+                        t.action
+                      ) &&
                         n &&
                         Dt({
                           name: "area-top",
@@ -689,7 +701,9 @@ switch (t.cmd) {
               for (;;)
                 switch ((e.prev = e.next)) {
                   case 0:
-                    if (u.a.getters.baseInfoRoom.roomID === t.data.roomid) {
+                    if (
+                      u.a.getters.baseInfoRoom.roomID === t.data.roomid
+                    ) {
                       e.next = 3;
                       break;
                     }
@@ -874,13 +888,18 @@ switch (t.cmd) {
               for (;;)
                 switch ((e.prev = e.next)) {
                   case 0:
-                    if (!u.a.getters["redEnvelope/getIsShowPopupPanel"]) {
+                    if (
+                      !u.a.getters["redEnvelope/getIsShowPopupPanel"]
+                    ) {
                       e.next = 6;
                       break;
                     }
                     return (
                       (e.next = 5),
-                      u.a.dispatch("redEnvelope/setRedEnvelopePanel", !1)
+                      u.a.dispatch(
+                        "redEnvelope/setRedEnvelopePanel",
+                        !1
+                      )
                     );
                   case 5:
                     _e.a.closePanel();
@@ -912,7 +931,9 @@ switch (t.cmd) {
                     return e.abrupt("return");
                   case 11:
                     return (
-                      (n = Object(Ie.b)(t)), (e.next = 14), Object(Ie.a)(n)
+                      (n = Object(Ie.b)(t)),
+                      (e.next = 14),
+                      Object(Ie.a)(n)
                     );
                   case 14:
                   case "end":

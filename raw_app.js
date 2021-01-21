@@ -56,7 +56,7 @@
                 p()(e).forEach(function (n) {
                   var r = t.freeGift[n],
                     i = e[n];
-                  if (!i) return m(b + " ä¼ å…¥ payload æ ¼å¼éžæ³•", i);
+                  if (!i) return m(b + " 传入 payload 格式非法", i);
                   void 0 !== r
                     ? p()(i).forEach(function (e) {
                         void 0 !== i[e] &&
@@ -498,11 +498,7 @@
             return parseInt(t);
           default:
             return (
-              Object(C.b)("utils/to-number")(
-                "toNumber æŽ¥æ”¶åˆ°éžæ³•ç±»åž‹",
-                t
-              ),
-              t
+              Object(C.b)("utils/to-number")("toNumber 接收到非法类型", t), t
             );
         }
       }
@@ -685,8 +681,8 @@
           );
       }
       var J = [
-        { unit: "äº¿", val: 1e8 },
-        { unit: "ä¸‡", val: 1e4 },
+        { unit: "亿", val: 1e8 },
+        { unit: "万", val: 1e4 },
       ];
       function Q(t) {
         var e = void 0;
@@ -780,9 +776,9 @@
           t > 60 && ((n = Math.floor(t / 60)), (t %= 60));
         var r = "";
         return (
-          e > 0 && (r += e + "å°æ—¶"),
-          n > 0 && (r += n + "åˆ†é’Ÿ"),
-          t > 0 && (r += t + "ç§’"),
+          e > 0 && (r += e + "小时"),
+          n > 0 && (r += n + "分钟"),
+          t > 0 && (r += t + "秒"),
           r
         );
       }
@@ -1153,7 +1149,7 @@
               window.console &&
               window.console.log &&
               console.log(
-                "\n      Logger ä½¿ç”¨å¸®åŠ©:\n      ===\n       - Logger.help(), æŸ¥çœ‹ Logger å¸®åŠ©.\n       - Logger.print(id: number), æ‰“å°ç‰¹å®š ID æ—¥å¿—, è‹¥ä¸ä¼ å…¥ ID åˆ™æ‰“å°æ‰€æœ‰.\n       - Logger.printAll(), æ‰“å°å…¨éƒ¨æ—¥å¿—.\n    "
+                "\n      Logger 使用帮助:\n      ===\n       - Logger.help(), 查看 Logger 帮助.\n       - Logger.print(id: number), 打印特定 ID 日志, 若不传入 ID 则打印所有.\n       - Logger.printAll(), 打印全部日志.\n    "
               );
           }),
           t
@@ -1220,7 +1216,7 @@
       function c(t, e) {
         if (s) {
           var n = s.querySelector(".danmaku-buffer-num"),
-            r = t ? "æ–°æ¶ˆæ¯" + (t >= 100 ? "99+" : t) : "",
+            r = t ? "新消息" + (t >= 100 ? "99+" : t) : "",
             i = n && t && e ? "block" : "none";
           n && (n.textContent = r),
             s.style.display !== i && (s.style.display = i);
@@ -1357,18 +1353,16 @@
             if (e.need_login && 1 === e.need_login) {
               Object(h.b)().catch(b.noop);
               try {
-                y(
-                  "æœåŠ¡ç«¯è€å“¥å‘çŽ°ä½ æ²¡ç™»å½•ï¼Œæˆ‘ä»¬å°†å¼ºåˆ¶å¼¹å‡ºç™»å½•æ¡†~"
-                ),
+                y("服务端老哥发现你没登录，我们将强制弹出登录框~"),
                   Object(p.quickLogin)({ force: !0 });
               } catch (t) {
                 0;
               }
               t.serverResponse = {
                 code: null,
-                error: new Error("ä½ è¿˜æ²¡æœ‰ç™»å½•å“Ÿ~"),
+                error: new Error("你还没有登录哟~"),
                 errorType: "error",
-                errorMsg: "ä½ è¿˜æ²¡æœ‰ç™»å½•å“Ÿ~",
+                errorMsg: "你还没有登录哟~",
                 data: null,
               };
             }
@@ -1380,17 +1374,17 @@
                 msg: e.msg || e.message || "",
               };
             else {
-              var n = e.msg || e.message || "æœåŠ¡å™¨è¿”å›žçŠ¶æ€ç éž 0";
+              var n = e.msg || e.message || "服务器返回状态码非 0";
               t.serverResponse =
                 void 0 === e.code
                   ? {
                       code: null,
                       data: null,
                       error: new TypeError(
-                        "æœªèŽ·å–åˆ° code å€¼, ç–‘ä¼¼æŽ¥å£æ ¼å¼é”™è¯¯æˆ–ç½‘ç»œå·²æ–­å¼€"
+                        "未获取到 code 值, 疑似接口格式错误或网络已断开"
                       ),
                       errorMsg:
-                        "è¯·æ±‚å¤±è´¥ï¼Œè¯·æ‚¨ç¨åŽå†è¯•ï¼šæœªèŽ·å–åˆ° code å€¼, ç–‘ä¼¼æŽ¥å£æ ¼å¼é”™è¯¯æˆ–ç½‘ç»œå·²æ–­å¼€ " +
+                        "请求失败，请您稍后再试：未获取到 code 值, 疑似接口格式错误或网络已断开 " +
                         m.randomEmoji.sad(),
                       errorType: "error",
                     }
@@ -1398,8 +1392,7 @@
                       code: e.code,
                       data: e.data || null,
                       error: new Error(n),
-                      errorMsg:
-                        "è¯·æ±‚å¤±è´¥ï¼š" + n + " " + m.randomEmoji.sad(),
+                      errorMsg: "请求失败：" + n + " " + m.randomEmoji.sad(),
                       originErrorMsg: n + " " + m.randomEmoji.sad(),
                       errorType: "caution",
                     };
@@ -1408,11 +1401,9 @@
           },
           function (t) {
             return (
-              (t = t || new Error("ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡ä¸å¯ç”¨")),
+              (t = t || new Error("网络错误或服务不可用")),
               y(
-                "æŽ¥å£ " +
-                  t.config.url +
-                  " è¯·æ±‚å¤±è´¥ï¼šç½‘ç»œé”™è¯¯æˆ–æœåŠ¡ä¸å¯ç”¨\n",
+                "接口 " + t.config.url + " 请求失败：网络错误或服务不可用\n",
                 t
               ),
               (t.serverResponse = {
@@ -1420,7 +1411,7 @@
                 data: null,
                 error: t,
                 errorMsg:
-                  "æŽ¥å£è¯·æ±‚å¤±è´¥ï¼Œå¯èƒ½ä¸ºç½‘ç»œé”™è¯¯æˆ–æœåŠ¡ä¸å¯ç”¨ï¼Œè¯·æ‚¨ç­‰å¾…ç‰‡åˆ»åŽå†æ¬¡å°è¯• " +
+                  "接口请求失败，可能为网络错误或服务不可用，请您等待片刻后再次尝试 " +
                   m.randomEmoji.sad(),
                 errorType: "error",
               }),
@@ -1430,11 +1421,10 @@
         );
       var I = n(451),
         _ = {
-          FALLBACK_ERROR_MSG: "è¿”å›ž Code éž 0",
-          SERVER_ERROR_MSG: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+          FALLBACK_ERROR_MSG: "返回 Code 非 0",
+          SERVER_ERROR_MSG: "网络错误或服务器宕机",
           PLATFORM: "pc",
-          TIMEOUT_ERROR_MSG:
-            "è¯·æ±‚è¶…æ—¶å•¦ï¼Œä½ å½“å‰çš„ç½‘ç»œå¯èƒ½ä¸å¤ªç¨³å®šï¼Œè¯·é‡è¯•~",
+          TIMEOUT_ERROR_MSG: "请求超时啦，你当前的网络可能不太稳定，请重试~",
         };
       n.d(e, "a", function () {
         return I.a;
@@ -1465,7 +1455,7 @@
       function y(t) {
         try {
           t.on("set", function (t) {
-            if (!t) return b("livePlayer.onSet æœªèŽ·å–åˆ°æ•°æ®.");
+            if (!t) return b("livePlayer.onSet 未获取到数据.");
             var e = t.component,
               n = t.action,
               r = t.data;
@@ -1483,7 +1473,7 @@
                         .catch(p.noop);
                     a.default.$emit("LivePlayer: ShieldItemAddSResult", {
                       code: Object(p.toNumber)(t.code),
-                      msg: 0 === t.code ? "è¯·æ±‚æˆåŠŸ" : t.msg,
+                      msg: 0 === t.code ? "请求成功" : t.msg,
                       data: null,
                     });
                   })(r),
@@ -1492,7 +1482,7 @@
                       0;
                       a.default.$emit("LivePlayer: enableGlobalShieldResult", {
                         code: Object(p.toNumber)(t.code),
-                        msg: 0 === t.code ? "è¯·æ±‚æˆåŠŸ" : t.msg,
+                        msg: 0 === t.code ? "请求成功" : t.msg,
                         data: null,
                       });
                     })(r);
@@ -1505,7 +1495,7 @@
                       w("liveroom_dmset_click", {
                         position: 1,
                         result: t ? "open" : "close",
-                        tag_name: "è‡ªåŠ¨è°ƒèŠ‚å¯†åº¦",
+                        tag_name: "自动调节密度",
                       });
                   })(r),
                   "densityRate" === n &&
@@ -1515,7 +1505,7 @@
                         w("liveroom_dmset_click", {
                           position: 1,
                           result: "open",
-                          tag_name: "åŒå±å¯†åº¦",
+                          tag_name: "同屏密度",
                         });
                     })(r),
                   "areaHeight" === n &&
@@ -1530,7 +1520,7 @@
                         w("liveroom_dmset_click", {
                           position: 1,
                           result: "open",
-                          tag_name: "é€æ˜Žåº¦",
+                          tag_name: "透明度",
                         });
                     })(r),
                   "scale" === n &&
@@ -1540,7 +1530,7 @@
                         w("liveroom_dmset_click", {
                           position: 1,
                           result: "open",
-                          tag_name: "å­—å·ç¼©æ”¾",
+                          tag_name: "字号缩放",
                         });
                     })(r),
                   "display" === n &&
@@ -1565,7 +1555,7 @@
       function I(t) {
         try {
           t.on("danmakuMaskChange", function (t) {
-            if (!t) return k("livePlayer.danmakuMaskChange æœªèŽ·å–åˆ°æ•°æ®.");
+            if (!t) return k("livePlayer.danmakuMaskChange 未获取到数据.");
             var e = t.isShowMask,
               n = t.isShowTip,
               r = t.isOpenMask;
@@ -1638,7 +1628,7 @@
                       }
                       return e.abrupt("return", {
                         error: !1,
-                        msg: "åé¦ˆæˆåŠŸ",
+                        msg: "反馈成功",
                         errorType: "success",
                       });
                     case 8:
@@ -1724,9 +1714,9 @@
                           case 10:
                             (r = { type: "", remark: "" }),
                               Object(C.b)({
-                                title: "é—®é¢˜åé¦ˆ",
+                                title: "问题反馈",
                                 width: 528,
-                                button: { confirm: "æäº¤", cancel: "å–æ¶ˆ" },
+                                button: { confirm: "提交", cancel: "取消" },
                                 component: {
                                   name: "drap-box-popup",
                                   data: function () {
@@ -2030,7 +2020,7 @@
           });
         },
         st = Object(c.c)("live-player/on.send-danmaku");
-      var ct = ["åŽŸç”»", "è“å…‰", "è¶…æ¸…", "é«˜æ¸…", "æµç•…"];
+      var ct = ["原画", "蓝光", "超清", "高清", "流畅"];
       function ut(t) {
         try {
           t.on("switchQuality", function (t, e, n) {
@@ -2093,7 +2083,7 @@
                         switch ((n.prev = n.next)) {
                           case 0:
                             return (
-                              J("æ’­æ”¾å™¨è§¦å‘ initialized äº‹ä»¶", e),
+                              J("播放器触发 initialized 事件", e),
                               (window.__PlayerInitialized = !0),
                               s.a
                                 .dispatch("setPlayerType", e.type)
@@ -2150,9 +2140,7 @@
             try {
               t.on("danmakuMaskStatusChange", function (t) {
                 if (!t)
-                  return k(
-                    "livePlayer.danmakuMaskStatusChange æœªèŽ·å–åˆ°æ•°æ®."
-                  );
+                  return k("livePlayer.danmakuMaskStatusChange 未获取到数据.");
                 _({ type: t.type, status: t.status });
               });
             } catch (t) {
@@ -2258,7 +2246,7 @@
           (function (t) {
             try {
               t.on("switchLine", function (t) {
-                q("æ’­æ”¾å™¨è§¦å‘ switchLine äº‹ä»¶", t),
+                q("播放器触发 switchLine 事件", t),
                   s.a.dispatch("setPlayerLineType", t).catch(function () {
                     return null;
                   }),
@@ -2298,7 +2286,7 @@
               t.on("liveStateChange", function () {
                 var e = t.getPlayerInfo(),
                   n = e.liveStatus;
-                it("æ’­æ”¾å™¨è§¦å‘ liveStateChange äº‹ä»¶", n),
+                it("播放器触发 liveStateChange 事件", n),
                   1 === n
                     ? (Object(P.b)(t),
                       a.default.$emit("LivePlayer: StartLive", {
@@ -2334,7 +2322,7 @@
                           switch ((e.prev = e.next)) {
                             case 0:
                               if (
-                                (st("æ’­æ”¾å™¨è§¦å‘ sendDanmaku äº‹ä»¶", t),
+                                (st("播放器触发 sendDanmaku 事件", t),
                                 !t.response || 199e4 !== t.response.code)
                               ) {
                                 e.next = 8;
@@ -2465,7 +2453,7 @@
                 },
                 function (e) {
                   e.length && t.init("popularWords", kt()),
-                    yt("å·²å°†çƒ­è¯é€šè¿‡ watch ä¼ é€’è‡³æ’­æ”¾å™¨.");
+                    yt("已将热词通过 watch 传递至播放器.");
                 }
               );
             })(t);
@@ -2813,7 +2801,7 @@
                                                     return t.qn === r;
                                                   }).desc),
                                                   (this.currentQn = i),
-                                                  (this.expectQn = "è“å…‰çº§"),
+                                                  (this.expectQn = "蓝光级"),
                                                   this.deferShowLoginGuide();
                                               case 10:
                                               case "end":
@@ -2935,17 +2923,13 @@
                       }),
                       n("div", { staticClass: "guide-content" }, [
                         n("span", { staticClass: "guide-tip" }, [
-                          t._v(
-                            "å½“å‰è§‚çœ‹çš„æ˜¯" +
-                              t._s(t.currentQn) +
-                              "ç”»è´¨ï¼Œ"
-                          ),
+                          t._v("当前观看的是" + t._s(t.currentQn) + "画质，"),
                           n("span", { staticClass: "blue-highlight" }, [
-                            t._v("ç™»å½•"),
+                            t._v("登录"),
                           ]),
-                          t._v("å³å¯ç•…äº«"),
+                          t._v("即可畅享"),
                           n("span", { staticClass: "blue-highlight" }, [
-                            t._v(t._s(t.expectQn) + "ç”»è´¨"),
+                            t._v(t._s(t.expectQn) + "画质"),
                           ]),
                         ]),
                         n(
@@ -2954,7 +2938,7 @@
                             staticClass: "login-btn first-btn",
                             on: { click: t.toLogin },
                           },
-                          [t._v("ç™»å½•")]
+                          [t._v("登录")]
                         ),
                         n(
                           "span",
@@ -2962,7 +2946,7 @@
                             staticClass: "login-btn",
                             on: { click: t.toLogin },
                           },
-                          [t._v("æ³¨å†Œ")]
+                          [t._v("注册")]
                         ),
                       ]),
                     ])
@@ -3006,7 +2990,7 @@
                 try {
                   t.resize();
                 } catch (t) {
-                  re("æ’­æ”¾å™¨ resize æ‰§è¡Œé”™è¯¯", t);
+                  re("播放器 resize 执行错误", t);
                 }
               }, 300);
             }
@@ -3063,15 +3047,15 @@
         de = Object(c.b)("module/live-player"),
         pe = Object(c.c)("module/live-player");
       function he(t, e) {
-        if (!t) return de("æ’­æ”¾å™¨æœªèŽ·å–åˆ° roomID", "roomID: " + t);
+        if (!t) return de("播放器未获取到 roomID", "roomID: " + t);
         try {
           if (window.b1e4e20a14b12fa0)
-            pe("æ’­æ”¾å™¨æå‰åˆå§‹åŒ–æˆåŠŸ", window.b1e4e20a14b12fa0),
+            pe("播放器提前初始化成功", window.b1e4e20a14b12fa0),
               (le = window.b1e4e20a14b12fa0),
               delete window.b1e4e20a14b12fa0,
               delete window.c184b21d916364c;
           else {
-            pe("æ’­æ”¾å™¨æœªæå‰åˆå§‹åŒ–æˆåŠŸ");
+            pe("播放器未提前初始化成功");
             var n = {
               cid: t,
               initTime: performance.now(),
@@ -3085,7 +3069,7 @@
                 logo: ue.a.switchInfo.isShowPlayerWatermark,
                 feedback: ue.a.switchInfo.isShowFeedback,
                 recommend: ue.a.switchInfo.isShowLiveRecommend,
-                tipsText: "ä¸»æ’­å·²å…³æ’­",
+                tipsText: "主播已关播",
               },
               backgroundFilter: !0,
               coreType: 2,
@@ -3118,7 +3102,7 @@
               }
             })();
         } catch (t) {
-          de("æ’­æ”¾å™¨åˆ›å»ºé”™è¯¯", t);
+          de("播放器创建错误", t);
         }
       }
       function me() {
@@ -4191,7 +4175,7 @@
                     if (0 === t) return "";
                     var n = t - e,
                       r = Math.ceil(n / 86400);
-                    return r > 99 ? "99+" : r > 1 ? r + "å¤©" : "ä»Šå¤©";
+                    return r > 99 ? "99+" : r > 1 ? r + "天" : "今天";
                   })(t.expire_at),
                   giftImage: { png: Object(pt.a)(n) },
                 };
@@ -4222,7 +4206,7 @@
         return (
           Object(b.isObject)(t) || (t = {}),
           {
-            title: t.title || "æŠ½å¥–",
+            title: t.title || "抽奖",
             rule: t.rule || "",
             currentRound: t.current_round || 0,
             typeB: t.typeB || [],
@@ -4531,7 +4515,7 @@
           r++
         )
           n[r - 1] = arguments[r];
-        i.apply(void 0, ["äº‹ä»¶ " + t + " æ³¨å†Œå¤±è´¥"].concat(n));
+        i.apply(void 0, ["事件 " + t + " 注册失败"].concat(n));
       }
     },
     ,
@@ -4552,7 +4536,7 @@
         };
       var f =
           "//link.bilibili.com/p/center/index#/user-center/wearing-center/library",
-        l = "ç‚¹å‡»æŸ¥çœ‹æ‰€æœ‰ç›´æ’­å¤´è¡” " + c.randomEmoji.happy();
+        l = "点击查看所有直播头衔 " + c.randomEmoji.happy();
       function d(t) {
         var e = Object(o.a)(
             "div",
@@ -4573,8 +4557,7 @@
             d = Object(o.a)("a", null, null, [
               [
                 "title",
-                "ç¨€æœ‰çš„ç«‹ç»˜å¤´è¡”ï¼Œå››ä¸å››å¾ˆè…»å®³ï¼" +
-                  c.randomEmoji.happy(),
+                "稀有的立绘头衔，四不四很腻害！" + c.randomEmoji.happy(),
               ],
               ["href", f],
               ["target", "_blank"],
@@ -4584,11 +4567,11 @@
           var p = Object(o.a)(
             "div",
             "hover-panel a-scale-in-ease",
-            '<span style="color: #000">æ´»åŠ¨å¤´è¡”</span><br/><a class="out-link" title="' +
+            '<span style="color: #000">活动头衔</span><br/><a class="out-link" title="' +
               l +
               '" href="' +
               f +
-              '" target="_blank">æŸ¥çœ‹è¯¦æƒ…</a>',
+              '" target="_blank">查看详情</a>',
             null,
             !0
           );
@@ -4672,7 +4655,7 @@
                 "div",
                 t + "-icon dp-i-block p-relative v-middle",
                 null,
-                [["title", "è¿™æ˜¯ä½å¤§äººç‰© " + c.randomEmoji.happy()]]
+                [["title", "这是位大人物 " + c.randomEmoji.happy()]]
               );
             })(I ? "anchor" : "admin");
             T.appendChild(O);
@@ -4695,20 +4678,15 @@
                   "div",
                   "user-level-icon lv-" + t + " dp-i-block p-relative v-middle",
                   "UL " + t,
-                  [
-                    [
-                      "title",
-                      "è¿™æ˜¯ TA çš„ç”¨æˆ·ç­‰çº§ " + c.randomEmoji.happy(),
-                    ],
-                  ]
+                  [["title", "这是 TA 的用户等级 " + c.randomEmoji.happy()]]
                 );
               if (!n) {
                 var i = Object(o.a)("div");
                 (i.className = "hover-panel t-left a-scale-in-ease"),
                   (i.innerHTML =
-                    "\n      <span>ç”¨æˆ·ç­‰çº§ï¼š" +
+                    "\n      <span>用户等级：" +
                     t +
-                    '</span>\n      <br>\n      <a class="bili-link" href="//live.bilibili.com/p/eden/rank#/childnav/level/0" target="_blank">\n        <span>ç”¨æˆ·æŽ’åï¼š' +
+                    '</span>\n      <br>\n      <a class="bili-link" href="//live.bilibili.com/p/eden/rank#/childnav/level/0" target="_blank">\n        <span>用户排名：' +
                     e +
                     "</span>\n      </a>\n    "),
                   r.appendChild(i);
@@ -4956,14 +4934,14 @@
                           ? ((w = Object(o.a)(
                               "span",
                               "gift-total-count v-bottom",
-                              y > 1 ? "å…±" + y + "ä¸ª" : ""
+                              y > 1 ? "共" + y + "个" : ""
                             )),
                             c.appendChild(w))
                           : ((k = t.giftInfo.comboCount),
                             (I = Object(o.a)(
                               "span",
                               "gift-count v-bottom",
-                              k > 1 ? k + "è¿žå‡»" : ""
+                              k > 1 ? k + "连击" : ""
                             )),
                             c.appendChild(I)),
                         e.abrupt("return", c)
@@ -5143,7 +5121,7 @@
           });
         },
         ct =
-          "ç³»ç»Ÿæç¤ºï¼šå“”å“©å“”å“©ç›´æ’­å†…å®¹åŠäº’åŠ¨è¯„è®ºé¡»ä¸¥æ ¼éµå®ˆç›´æ’­è§„èŒƒï¼Œä¸¥ç¦ä¼ æ’­è¿æ³•è¿è§„ã€ä½Žä¿—è¡€æš´ã€å¸çƒŸé…—é…’ã€é€ è°£è¯ˆéª—ç­‰ä¸è‰¯æœ‰å®³ä¿¡æ¯ã€‚å¦‚æœ‰è¿è§„ï¼Œå¹³å°å°†è¿›è¡Œå°ç¦ç›´è‡³æ°¸ä¹…å°åœè´¦å·å“¦ï¼æ³¨æ„ç†æ€§æ‰“èµï¼Œæœªæˆå¹´ä¸æå€¡å¤§é¢æ‰“èµã€‚è¯·å‹¿è½»ä¿¡å¹³å°ä¸Šå„ç±»å¹¿å‘Šä¿¡æ¯ï¼Œè°¨é˜²ä¸Šå½“å—éª—ã€‚";
+          "系统提示：哔哩哔哩直播内容及互动评论须严格遵守直播规范，严禁传播违法违规、低俗血暴、吸烟酗酒、造谣诈骗等不良有害信息。如有违规，平台将进行封禁直至永久封停账号哦！注意理性打赏，未成年不提倡大额打赏。请勿轻信平台上各类广告信息，谨防上当受骗。";
       function ut() {
         return st(
           this,
@@ -5255,7 +5233,7 @@
               var r = Object(o.a)(
                 "div",
                 "guard-renew-btn border-box",
-                "guard_expire" === t.key ? "ç‚¹å‡»ç»­è´¹ >" : "ç‚¹å‡»å›žè´­ >",
+                "guard_expire" === t.key ? "点击续费 >" : "点击回购 >",
                 []
               );
               return r.addEventListener("click", mt), e.appendChild(r), e;
@@ -5420,10 +5398,7 @@
             });
       }
       function yt(t) {
-        Object(rt.b)("chat-history-panel/init")(
-          "åŽ†å²å¼¹å¹•åˆ—è¡¨åˆå§‹åŒ–å¤±è´¥",
-          t
-        );
+        Object(rt.b)("chat-history-panel/init")("历史弹幕列表初始化失败", t);
       }
       function wt() {
         var t = r.a.state.baseInfoUser.guideLightMedal;
@@ -5447,9 +5422,9 @@
             );
             return (
               (e.innerHTML =
-                '\n    <span>\n      <span class="text v-middle">æš´å‡»ï¼</span>\n      <span class="v-middle" style="color: #fb7299">' +
+                '\n    <span>\n      <span class="text v-middle">暴击！</span>\n      <span class="v-middle" style="color: #fb7299">' +
                 t.username +
-                '</span>\n      <span class="text v-middle">ä¸ºä¸»æ’­é¢å¤–å¢žåŠ ' +
+                '</span>\n      <span class="text v-middle">为主播额外增加' +
                 t.pkName +
                 t.pkVotes +
                 "</span>\n    </span>\n  "),
@@ -5996,8 +5971,7 @@
                       return (
                         (e.prev = 12),
                         (e.t0 = e.catch(3)),
-                        (i =
-                          "/web-room/v1/index/getInfoByRoom æŽ¥å£è¯·æ±‚é”™è¯¯"),
+                        (i = "/web-room/v1/index/getInfoByRoom 接口请求错误"),
                         (o = e.t0.serverResponse || {
                           data: null,
                           error: new Error(i),
@@ -6150,8 +6124,7 @@
                       return (
                         (e.prev = 10),
                         (e.t0 = e.catch(0)),
-                        (i =
-                          "/web-room/v1/index/getInfoByUser æŽ¥å£è¯·æ±‚é”™è¯¯"),
+                        (i = "/web-room/v1/index/getInfoByUser 接口请求错误"),
                         (o = e.t0.serverResponse || {
                           data: null,
                           error: new Error(i),
@@ -6320,7 +6293,7 @@
                         (e.prev = 10),
                         (e.t0 = e.catch(0)),
                         (r =
-                          "/xlive/lottery-interface/v1/lottery/getLotteryInfoWeb æŽ¥å£è¯·æ±‚é”™è¯¯"),
+                          "/xlive/lottery-interface/v1/lottery/getLotteryInfoWeb 接口请求错误"),
                         (i = e.t0.serverResponse || {
                           data: null,
                           error: new Error(r),
@@ -6438,7 +6411,7 @@
         e
           ? (a.$emit(t + "/" + e, n),
             (function (t, e) {
-              l(t, "\b\bè§¦å‘äº‹ä»¶ type: " + e);
+              l(t, "\b\b触发事件 type: " + e);
             })(t, e))
           : f(t, e);
       }
@@ -6446,7 +6419,7 @@
         if (e)
           return (
             (function (t, e) {
-              l(t, "ç›‘å¬äº‹ä»¶ type: " + e);
+              l(t, "监听事件 type: " + e);
             })(t, e),
             a.$on(t + "/" + e, n)
           );
@@ -6456,14 +6429,14 @@
         e
           ? (a.$off(t + "/" + e, n),
             (function (t, e) {
-              l(t, "å–æ¶ˆäº‹ä»¶ type: " + e);
+              l(t, "取消事件 type: " + e);
             })(t, e))
           : f(t, e);
       }
       function f(t, e) {
         !(function (t, e) {
           o(t, "error", e);
-        })(t, e + " äº‹ä»¶æœªæ³¨å†Œ");
+        })(t, e + " 事件未注册");
       }
       function l(t, e) {
         o(t, "info", e);
@@ -6572,9 +6545,7 @@
                 ? ((this.code = 0), (this.data = t.data), (this.error = null))
                 : ((this.errorType = "caution"),
                   this.setCaution(
-                    new Error(
-                      t.message || t.msg || "æŽ¥å£è¿”å›žé”™è¯¯ç " + t.code
-                    )
+                    new Error(t.message || t.msg || "接口返回错误码" + t.code)
                   ));
             }),
             (t.prototype.setExpectation = function (t) {
@@ -6813,7 +6784,7 @@
         "member" === t &&
           1 !== e &&
           (l(
-            "è°ƒå– setGlobalShield ä¸”ç±»åž‹ä¸º member æ—¶ level å¿…é¡»ä¸º 1, å·² override."
+            "调取 setGlobalShield 且类型为 member 时 level 必须为 1, 已 override."
           ),
           (e = 1));
         try {
@@ -6896,7 +6867,7 @@
           r++
         )
           n[r - 1] = arguments[r];
-        l.apply(void 0, ["æ’­æ”¾å™¨ " + t + " æ‰§è¡Œå¤±è´¥"].concat(n));
+        l.apply(void 0, ["播放器 " + t + " 执行失败"].concat(n));
       }
     },
     function (t, e, n) {
@@ -7125,7 +7096,7 @@
         return {
           error: t,
           errorType: "error",
-          errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+          errorMsg: "网络错误或服务器宕机",
           data: null,
         };
       }
@@ -7244,7 +7215,7 @@
           Object(o.a)(
             "div",
             r.b.chatItemClassPrefix + "misc-msg room-silent on",
-            "[ç³»ç»Ÿ]ï¼š" + t
+            "[系统]：" + t
           )
         );
       }
@@ -7253,7 +7224,7 @@
           Object(o.a)(
             "div",
             r.b.chatItemClassPrefix + "misc-msg room-silent off",
-            "[ç³»ç»Ÿ]ï¼šä¸»æ’­å–æ¶ˆäº†æˆ¿é—´ç¦è¨€"
+            "[系统]：主播取消了房间禁言"
           )
         );
       }
@@ -7263,9 +7234,9 @@
           r.b.chatItemClassPrefix + "misc-msg kick-out"
         );
         (e.innerHTML =
-          '<span>ç”¨æˆ· <span style="color: #aaa">' +
+          '<span>用户 <span style="color: #aaa">' +
           t +
-          "</span> å·²è¢«ç®¡ç†å‘˜è¸¢å‡ºæˆ¿é—´</span>"),
+          "</span> 已被管理员踢出房间</span>"),
           b(e);
       }
       function l(t) {
@@ -7290,9 +7261,9 @@
           r.b.chatItemClassPrefix + "misc-msg user-block"
         );
         (e.innerHTML =
-          '<span>ç”¨æˆ· <span style="color: #aaa">' +
+          '<span>用户 <span style="color: #aaa">' +
           t +
-          "</span> å·²è¢«ç®¡ç†å‘˜ç¦è¨€</span>"),
+          "</span> 已被管理员禁言</span>"),
           b(e);
       }
       function p(t) {
@@ -7302,9 +7273,9 @@
             r.b.chatItemClassPrefix + "misc-msg user-block"
           );
         (n.innerHTML =
-          '<span>æ­å–œ <span style="color: #FB7299;">' +
+          '<span>恭喜 <span style="color: #FB7299;">' +
           e +
-          '</span> ç²‰ä¸å‹‹ç« åˆšåˆšå‡çº§è‡³ <span style="color: #FB7299;">Lv.' +
+          '</span> 粉丝勋章刚刚升级至 <span style="color: #FB7299;">Lv.' +
           t +
           "</span>"),
           b(n);
@@ -7315,7 +7286,7 @@
           r.b.chatItemClassPrefix + "misc-msg user-block"
         );
         (t.innerHTML =
-          "<span style='color: #FB7299;'>æ‚¨</span> <span> åˆšåˆšå†æ¬¡ç‚¹äº®äº†ç²‰ä¸å‹‹ç« </span>"),
+          "<span style='color: #FB7299;'>您</span> <span> 刚刚再次点亮了粉丝勋章</span>"),
           b(t);
       }
       function m() {
@@ -7325,9 +7296,9 @@
             r.b.chatItemClassPrefix + "misc-msg user-block"
           );
         (e.innerHTML =
-          "<span style='color: #FB7299;'>æ‚¨ </span>å’Œ <span style=\"color: #FB7299;\">" +
+          "<span style='color: #FB7299;'>您 </span>和 <span style=\"color: #FB7299;\">" +
           t +
-          "</span> çš„å‹‹ç« å·²ç†„ç­</span>"),
+          "</span> 的勋章已熄灭</span>"),
           b(e);
       }
       function v(t) {
@@ -7336,9 +7307,9 @@
           r.b.chatItemClassPrefix + "misc-msg user-block"
         );
         (e.innerHTML =
-          "<span style='color: #FB7299;'>æ‚¨ </span> <span>å·²è§£é”</span> <span style='color: #FB7299;'>Lv." +
+          "<span style='color: #FB7299;'>您 </span> <span>已解锁</span> <span style='color: #FB7299;'>Lv." +
           t +
-          "ç‰¹æƒç¤¼åŒ…</span>"),
+          "特权礼包</span>"),
           b(e);
       }
       function g() {
@@ -7348,9 +7319,9 @@
             r.b.chatItemClassPrefix + "misc-msg user-block"
           );
         (e.innerHTML =
-          '<span>æ­å–œ </span><span style="color: #FB7299">' +
+          '<span>恭喜 </span><span style="color: #FB7299">' +
           t +
-          " </span><span>æˆä¸ºç²‰ä¸å›¢æˆå‘˜</span>"),
+          " </span><span>成为粉丝团成员</span>"),
           b(e);
       }
       function b(t) {
@@ -7541,7 +7512,7 @@
             delete window.planeptune,
             r.start &&
               r.initializationFinished &&
-              p("å½“å‰é¡µé¢æ€§èƒ½ï¼š", r.initializationFinished - r.start);
+              p("当前页面性能：", r.initializationFinished - r.start);
         } catch (t) {}
       }
       function g(t, e, n) {
@@ -7897,7 +7868,7 @@
               t.status > 0 &&
                 i.push({
                   id: t.id,
-                  content: t.content || "æœªè®¾ç½®è‡ªå®šä¹‰å¼¹å¹•",
+                  content: t.content || "未设置自定义弹幕",
                   status: t.status,
                   reason: t.reason,
                 });
@@ -7905,7 +7876,7 @@
             i.length <= 0 &&
               i.push({
                 id: "",
-                content: "æœªè®¾ç½®è‡ªå®šä¹‰å¼¹å¹•",
+                content: "未设置自定义弹幕",
                 status: 0,
                 reason: "",
               }),
@@ -11003,7 +10974,7 @@
             window.localStorage.getItem(m + f.a.state.baseInfoUser.uid) || "";
           return JSON.parse(t);
         } catch (t) {
-          return h("èŽ·å– LocalStorage ä¸­å¼¹å¹•é€‰é¡¹å¤±è´¥", t), {};
+          return h("获取 LocalStorage 中弹幕选项失败", t), {};
         }
       }
       function g() {
@@ -11013,7 +10984,7 @@
             var e = a()(t);
             window.localStorage.setItem(m + f.a.state.baseInfoUser.uid, e);
           } catch (t) {
-            h("å¼¹å¹•é€‰é¡¹å‚¨å­˜åˆ° LocalStorage å¤±è´¥", t);
+            h("弹幕选项储存到 LocalStorage 失败", t);
           }
         })({
           danmakuDensity: t.danmakuDensity,
@@ -11310,7 +11281,7 @@
                               e.abrupt("return", {
                                 error: e.t0,
                                 errorType: "error",
-                                errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                                errorMsg: "网络错误或服务器宕机",
                                 data: null,
                               })
                             );
@@ -11392,7 +11363,7 @@
                 giftName: E,
                 price: O,
                 currentGiftNum: M,
-                requireText: N || "æ— ",
+                requireText: N || "无",
                 showPanel: j,
                 title: void 0 === B ? "" : B,
               };
@@ -11826,7 +11797,7 @@
           else {
             if (3 !== t.length)
               return void Object(r.b)("utils/hex-to-rgb")(
-                "åå…­è¿›åˆ¶è‰²å¿…é¡»é•¿åº¦ä¸º 3 æˆ– 6, å½“å‰ä¸º #" + t + "."
+                "十六进制色必须长度为 3 或 6, 当前为 #" + t + "."
               );
             o = t[i] + t[i];
           }
@@ -12494,7 +12465,7 @@
           window &&
           ((window.__LIVE_WATCH_LOG__ && window.__LIVE_WATCH_LOG__.length) ||
             (window.__LIVE_WATCH_LOG__ = []),
-          window.__LIVE_WATCH_LOG__.push("æˆ¿é—´å†…æ—¥å¿—ï¼š" + t));
+          window.__LIVE_WATCH_LOG__.push("房间内日志：" + t));
       }
       var b = n(9),
         y = n(67),
@@ -12598,14 +12569,14 @@
                   switch ((t.prev = t.next)) {
                     case 0:
                       if (
-                        (g("å°è¯•å¼€å§‹ä¸ŠæŠ¥..."),
+                        (g("尝试开始上报..."),
                         (e = m.a.getters.baseInfoRoom.liveStatus),
                         1 === v.b.getPlayerInfo().liveStatus || "LIVE" === e)
                       ) {
                         t.next = 6;
                         break;
                       }
-                      return g("æœªå¼€æ’­ï¼Œåœæ­¢ä¸ŠæŠ¥"), t.abrupt("return");
+                      return g("未开播，停止上报"), t.abrupt("return");
                     case 6:
                       if (d()) {
                         t.next = 10;
@@ -12625,14 +12596,14 @@
                       }
                       return (
                         h.default.report("live_w_reject", { reason: 2 }),
-                        g("æœªç™»å½•ï¼Œåœæ­¢ä¸ŠæŠ¥"),
+                        g("未登录，停止上报"),
                         T ||
-                          (g("å¼€å§‹ç›‘è§†ç™»å½•æ€å˜åŒ–"),
+                          (g("开始监视登录态变化"),
                           (T = !0),
                           Object(y.c)(function (t) {
-                            g("æ£€æµ‹åˆ°ç™»å½•æ€å˜åŒ–"),
+                            g("检测到登录态变化"),
                               t.isLogin &&
-                                (g("ç™»å½•æ€å˜æˆå·²ç™»å½•"),
+                                (g("登录态变成已登录"),
                                 S().catch(function (t) {
                                   g(t.message);
                                 }));
@@ -12644,9 +12615,7 @@
                         t.next = 24;
                         break;
                       }
-                      return (
-                        g("å·²å¼€æ’­çŠ¶æ€ï¼Œä¸é‡å¤ä¸ŠæŠ¥"), t.abrupt("return")
-                      );
+                      return g("已开播状态，不重复上报"), t.abrupt("return");
                     case 24:
                       return (
                         (_ = !0),
@@ -12724,7 +12693,7 @@
                     case 34:
                       (t.prev = 34),
                         (t.t0 = t.catch(25)),
-                        g("å¼€æ’­å¤±è´¥ï¼š" + t.t0.message),
+                        g("开播失败：" + t.t0.message),
                         R(k.WATCH_TRACKER_ERROR),
                         h.default.report("supportLiveWatchTracker", {
                           support: 0,
@@ -12757,14 +12726,14 @@
                         ((e =
                           m.a.getters.baseInfoUser &&
                           m.a.getters.baseInfoUser.uid),
-                        g("å°è¯•åœæ­¢ä¸ŠæŠ¥"),
+                        g("尝试停止上报"),
                         d())
                       ) {
                         t.next = 6;
                         break;
                       }
                       return (
-                        g("åœæ­¢å‘é€å¿ƒè·³ï¼šæµè§ˆå™¨ä¸æ”¯æŒwasm"),
+                        g("停止发送心跳：浏览器不支持wasm"),
                         h.default.report("live_w_reject", { reason: 1 }),
                         t.abrupt("return")
                       );
@@ -12774,7 +12743,7 @@
                         break;
                       }
                       return (
-                        g("åœæ­¢å‘é€å¿ƒè·³ï¼šæœªç™»å½•"),
+                        g("停止发送心跳：未登录"),
                         h.default.report("live_w_reject", { reason: 2 }),
                         t.abrupt("return")
                       );
@@ -12784,18 +12753,17 @@
                         break;
                       }
                       return (
-                        g("åœæ­¢å‘é€å¿ƒè·³ï¼šå·²ç»æ˜¯åœæ­¢çŠ¶æ€"),
-                        t.abrupt("return")
+                        g("停止发送心跳：已经是停止状态"), t.abrupt("return")
                       );
                     case 14:
                       return (_ = !1), (t.prev = 15), (t.next = 18), p.a.stop();
                     case 18:
-                      g("è§¦å‘äº†åœæ­¢å¿ƒè·³"), (t.next = 24);
+                      g("触发了停止心跳"), (t.next = 24);
                       break;
                     case 21:
                       (t.prev = 21),
                         (t.t0 = t.catch(15)),
-                        g("å¿ƒè·³å‡ºé”™ï¼š" + t.t0.message);
+                        g("心跳出错：" + t.t0.message);
                     case 24:
                     case "end":
                       return t.stop();
@@ -12838,7 +12806,7 @@
         );
       }
       function R(t) {
-        g("æ—¶é•¿ä¸ŠæŠ¥å¤±è´¥ï¼šcode: " + t),
+        g("时长上报失败：code: " + t),
           window.postMessage({ type: "liveWatchTrackerFail", reason: t }, "*"),
           O(0, t);
       }
@@ -12907,7 +12875,7 @@
         s = n(151),
         c = [
           {
-            text: "æŽ¨è",
+            text: "推荐",
             type: s.a.follow,
             name: s.a.follow,
             iconClass: "concerned",
@@ -13380,7 +13348,7 @@
                     })
                     .catch());
             } catch (t) {
-              console.log("é«˜ä»·ç¤¼ç‰©è®°å¿†æ•°æ®èµ‹å€¼æŠ¥é”™");
+              console.log("高价礼物记忆数据赋值报错");
             }
           }),
           t
@@ -13498,7 +13466,7 @@
         e && (n += " " + e),
           a.a.switchInfo.isShowFansMedal || (n += " dp-none");
         var s = Object(o.a)("div", n, null, [
-            ["title", "è¿™æ˜¯ TA çš„ç²‰ä¸å‹‹ç«  " + i.randomEmoji.happy()],
+            ["title", "这是 TA 的粉丝勋章 " + i.randomEmoji.happy()],
             ["data-anchor-id", "" + t.anchorId],
             ["data-room-id", "" + t.shortRoomID],
           ]),
@@ -13767,11 +13735,9 @@
                 if (o > -1 && a)
                   throw a.comboTotalCoin < t.comboTotalCoin
                     ? (e.update(t, a, o).then().catch(),
-                      new Error(
-                        "å·²æœ‰é“å…·ï¼Œä¸å†é‡å¤æ·»åŠ ï¼Œç›´æŽ¥æ›´æ–°é“å…·"
-                      ))
+                      new Error("已有道具，不再重复添加，直接更新道具"))
                     : new Error(
-                        "ä¸¢å¼ƒç­–ç•¥ï¼Œè¿žå‡»æ•°æ®å¯èƒ½äº§ç”Ÿå‰é¢çš„æ•°æ®åŽé¢åˆ°è¾¾çš„æƒ…å†µ"
+                        "丢弃策略，连击数据可能产生前面的数据后面到达的情况"
                       );
                 n();
               });
@@ -13891,7 +13857,7 @@
                             return e.abrupt("return", c.a.resolve());
                           case 12:
                             throw new Error(
-                              "å½“å‰ç”¨æˆ·èµ é€çš„è¿žå‡»é“å…·è®°å½•å°†ç›´æŽ¥æ›¿æ¢ä¸€å·ä½é“å…·è®°å½•"
+                              "当前用户赠送的连击道具记录将直接替换一号位道具记录"
                             );
                           case 13:
                           case "end":
@@ -13938,7 +13904,7 @@
                                 }
                                 this.addGiftToWaitQueue(t),
                                   a(
-                                    "æ–°å¢žé“å…·ä»·ä½æœ€ä½Žä¸èƒ½é¡¶æ›¿ä»»ä½•çŽ°æœ‰é“å…·ï¼Œ åŠ å…¥ç­‰å¾…é˜Ÿåˆ—"
+                                    "新增道具价位最低不能顶替任何现有道具， 加入等待队列"
                                   ),
                                   (e.next = 17);
                                 break;
@@ -13984,9 +13950,7 @@
                   throw (
                     (clearTimeout(t.timer),
                     (t = null),
-                    new Error(
-                      "å½“å‰å¤„äºŽè¿žå‡»é“å…·å±è”½çŠ¶æ€ï¼Œä¸å†ç»§ç»­æ·»åŠ "
-                    ))
+                    new Error("当前处于连击道具屏蔽状态，不再继续添加"))
                   );
                 n();
               });
@@ -13997,11 +13961,9 @@
                 if (e.isOpenThrottle && !e.checkIsCurrentUser(t.userId))
                   throw t.isTopGift()
                     ? (e.addGiftToWaitQueue(t),
-                      new Error(
-                        "å½“å‰å¤„äºŽèŠ‚æµçŠ¶æ€ï¼Œé¡¶çº§é“å…·è¿›å…¥ç­‰å¾…é˜Ÿåˆ—"
-                      ))
+                      new Error("当前处于节流状态，顶级道具进入等待队列"))
                     : new Error(
-                        "å½“å‰å¤„äºŽèŠ‚æµçŠ¶æ€ï¼Œä¸”ä¸æ˜¯å½“å‰ç”¨æˆ·ï¼Œè¯¥æ¡è®°å½•å°†è¢«ä¸¢å¼ƒ"
+                        "当前处于节流状态，且不是当前用户，该条记录将被丢弃"
                       );
                 (e.isOpenThrottle = !0),
                   setTimeout(function () {
@@ -14754,8 +14716,7 @@
                                   ".pay-methods-cntr li"
                                 )[0] || document.querySelector(".side-bar-btn"),
                               n =
-                                (t && t.errorMsg) ||
-                                "è´­ä¹°å‘ç”Ÿå¼‚å¸¸/(ã„’oã„’)/~~";
+                                (t && t.errorMsg) || "购买发生异常/(ㄒoㄒ)/~~";
                             o.linkMsg(e, n, "caution");
                           },
                         });
@@ -14799,11 +14760,11 @@
         var t = this;
         return new _.a(function (e, n) {
           t.linkPopup({
-            title: "å¼€é€šæˆåŠŸ",
+            title: "开通成功",
             width: 300,
             html:
-              '\n        <p style="text-align:center; margin: 22px 0 32px 0;">æ”¯ä»˜æˆåŠŸï¼Œä½ å·²æˆåŠŸå¼€é€šå‘¨èˆ°é•¿</p>\n      ',
-            button: { confirm: "æˆ‘çŸ¥é“äº†", cancel: !1 },
+              '\n        <p style="text-align:center; margin: 22px 0 32px 0;">支付成功，你已成功开通周舰长</p>\n      ',
+            button: { confirm: "我知道了", cancel: !1 },
           })
             .onConfirm(function (n) {
               return S(
@@ -15174,7 +15135,7 @@
                       }
                       return t.abrupt(
                         "return",
-                        g("ç²‰ä¸å‹‹ç« æŽ¥å£è¯·æ±‚å¤±è´¥", r.error)
+                        g("粉丝勋章接口请求失败", r.error)
                       );
                     case 10:
                       return (
@@ -15224,7 +15185,7 @@
                         break;
                       }
                       return (
-                        g("ç”¨æˆ·ç²‰ä¸å‹‹ç« æŽ¥å£è¯·æ±‚å¤±è´¥", r.error),
+                        g("用户粉丝勋章接口请求失败", r.error),
                         e.abrupt("return", !1)
                       );
                     case 10:
@@ -15455,7 +15416,7 @@
                         break;
                       }
                       return e.abrupt("return", {
-                        error: new Error(o.msg || n + " è¿”å›ž Code éž 0"),
+                        error: new Error(o.msg || n + " 返回 Code 非 0"),
                         errorType: "caution",
                         errorMsg: o.msg,
                         code: o.code,
@@ -15470,7 +15431,7 @@
                         e.abrupt("return", {
                           error: e.t0,
                           errorType: "error",
-                          errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                          errorMsg: "网络错误或服务器宕机",
                           data: null,
                         })
                       );
@@ -15505,7 +15466,7 @@
               try {
                 n = new t(e);
               } catch (t) {
-                throw Error("é“å…·ç±»åž‹ä¸æ­£ç¡®ï¼");
+                throw Error("道具类型不正确！");
               }
               return n;
             }),
@@ -15523,7 +15484,7 @@
                 try {
                   n = new t(e);
                 } catch (t) {
-                  throw Error("é“å…·ç±»åž‹ä¸æ­£ç¡®ï¼");
+                  throw Error("道具类型不正确！");
                 }
                 return n;
               });
@@ -15594,7 +15555,7 @@
                           });
                         } catch (t) {
                           R(
-                            'Gift "' + r + '" countSet è¿‡æ»¤å‡ºé”™.',
+                            'Gift "' + r + '" countSet 过滤出错.',
                             "count_set:",
                             N
                           ),
@@ -15603,7 +15564,7 @@
                       var D = O[r] ? O[r].max_limit : -1;
                       "number" != typeof D &&
                         (R(
-                          'Gift "' + r + '" max_limit æ•°æ®é”™è¯¯',
+                          'Gift "' + r + '" max_limit 数据错误',
                           "max_limit:",
                           D
                         ),
@@ -15858,7 +15819,7 @@
                         break;
                       }
                       return (
-                        F("ç¤¼ç‰©é“å…·åˆ—è¡¨èŽ·å–å¤±è´¥", c),
+                        F("礼物道具列表获取失败", c),
                         (n.next = 16),
                         s.a.dispatch("gift/setGiftPresetsList", {
                           loadError: !0,
@@ -15919,7 +15880,7 @@
                       return (
                         (n.prev = 38),
                         (n.t0 = n.catch(0)),
-                        F("ç¤¼ç‰©é“å…·åˆ—è¡¨èŽ·å–å¤±è´¥"),
+                        F("礼物道具列表获取失败"),
                         console.error(n.t0),
                         (n.next = 44),
                         s.a.dispatch("gift/setGiftPresetsList", {
@@ -16134,7 +16095,7 @@
                         (o = t.sent),
                         (a = []),
                         o.error
-                          ? F("æŠ˜æ‰£ç¤¼ç‰©é“å…·åˆ—è¡¨èŽ·å–å¤±è´¥", o)
+                          ? F("折扣礼物道具列表获取失败", o)
                           : (a = (o.data && o.data.discount_gift_list) || []),
                         a.forEach(function (t) {
                           var e = t.gift_id,
@@ -16965,7 +16926,7 @@
               0;
             }));
         } catch (t) {
-          console.error("æ’­æ”¾å™¨å¿ƒè·³æ‰“ç‚¹çˆ†ç‚¸å•¦ï¼š", t);
+          console.error("播放器心跳打点爆炸啦：", t);
         }
       }
       function v() {
@@ -17095,7 +17056,7 @@
           danmakuDensityDisplay: function (t) {
             switch (t.danmakuDensityRate) {
               case 86:
-                return "å¼¹å¹•è¶…é¢‘";
+                return "弹幕超频";
               case 85:
                 return 500;
               case 84:
@@ -17786,9 +17747,9 @@
                         break;
                       }
                       return n.abrupt("return", {
-                        error: new Error("ä¸»æ’­è‡ªå·±ä¸èƒ½å…³æ³¨è‡ªå·±å“¦"),
+                        error: new Error("主播自己不能关注自己哦"),
                         data: null,
-                        errorMsg: "ä¸»æ’­è‡ªå·±ä¸èƒ½å…³æ³¨è‡ªå·±å“¦",
+                        errorMsg: "主播自己不能关注自己哦",
                         errorType: "caution",
                       });
                     case 2:
@@ -17959,14 +17920,14 @@
       function E(t, e, n) {
         var r = function (t) {
             s.default.prototype.linkPopup({
-              title: "å‡ºé”™äº†",
+              title: "出错了",
               titleCenter: !0,
               width: 350,
               html:
                 '\n        <p class="t-center"\n        style="\n        font-size: 14px;\n        margin: 50px 0;\n        color: #666;">' +
                 t +
                 "</p>\n      ",
-              button: { cancel: !1, confirm: "å¥½çš„" },
+              button: { cancel: !1, confirm: "好的" },
             });
           },
           i = {
@@ -17976,11 +17937,11 @@
                 n &&
                   s.default.prototype.linkMsg(
                     n,
-                    "åˆ†ç»„ä¿å­˜æˆåŠŸ " + f.randomEmoji.happy(),
+                    "分组保存成功 " + f.randomEmoji.happy(),
                     "success"
                   );
             },
-            title: "è¯·é€‰æ‹©åˆ†ç»„ï½ž",
+            title: "请选择分组～",
             showErrMsgInDialog: !1,
             onAddTagError: r,
             onLoadRelationError: r,
@@ -18384,11 +18345,11 @@
           i = t.nameColor,
           o = t.msgType,
           a =
-            (((e = {})[b.b.Entry] = r < b.a.GuardJian ? "è¿›å…¥" : "å…‰ä¸´"),
-            (e[b.b.Attention] = "å…³æ³¨äº†"),
-            (e[b.b.Share] = "åˆ†äº«äº†"),
-            (e[b.b.SpecialAttention] = "ç‰¹åˆ«å…³æ³¨äº†"),
-            (e[b.b.MutualAttention] = "äº’ç²‰äº†"),
+            (((e = {})[b.b.Entry] = r < b.a.GuardJian ? "进入" : "光临"),
+            (e[b.b.Attention] = "关注了"),
+            (e[b.b.Share] = "分享了"),
+            (e[b.b.SpecialAttention] = "特别关注了"),
+            (e[b.b.MutualAttention] = "互粉了"),
             e),
           s = Object(v.a)(i);
         return {
@@ -18398,7 +18359,7 @@
           desc: Object(m.a)(
             "span",
             "flex-no-shrink v-middle",
-            a[o] + "ç›´æ’­é—´",
+            a[o] + "直播间",
             o > b.b.Entry
               ? [["style", "color: #F7B500"]]
               : [["style", "color: #999999"]]
@@ -18478,7 +18439,7 @@
                   (u = n.gift_id),
                   (l = n.gift_name),
                   (d = n.action),
-                  (p = void 0 === d ? "èµ é€" : d),
+                  (p = void 0 === d ? "赠送" : d),
                   (h = n.total_num),
                   (m = n.is_show),
                   (v = n.medal_info),
@@ -18629,9 +18590,9 @@
               setTimeout(h.b, 1e4), Object(m.b)();
             })
             .catch(function (t) {
-              console.error("ç»Ÿè®¡è„šæœ¬åŠ è½½å¤±è´¥ï¼š", t);
+              console.error("统计脚本加载失败：", t);
             }),
-          b("ä¸ŠæŠ¥é…ç½®ï¼š", e),
+          b("上报配置：", e),
           y
         );
       }
@@ -18658,7 +18619,7 @@
                       (n = e.sent),
                         (r = n.serverResponse).error &&
                           Object(p.b)("module/misc-stuff")(
-                            "æˆ¿é—´è¿›å…¥æ“ä½œè¯·æ±‚å¤±è´¥",
+                            "房间进入操作请求失败",
                             r.error
                           );
                     case 5:
@@ -18700,7 +18661,7 @@
               e = this._self._c || t;
             return e("p", { staticClass: "hint-text p-relative" }, [
               e("span", { staticClass: "text p-relative" }, [
-                this._v("ä½ å°†èŽ·å¾—ä»¥ä¸‹ç¦åˆ©"),
+                this._v("你将获得以下福利"),
               ]),
             ]);
           },
@@ -18708,13 +18669,13 @@
             var t = this.$createElement,
               e = this._self._c || t;
             return e("div", { staticClass: "item" }, [
-              e("div", [this._v("æ¯æ—¥ç¤¼åŒ…")]),
+              e("div", [this._v("每日礼包")]),
               e("div", { staticClass: "cont" }, [
                 e("img", { attrs: { src: n(790) } }),
                 e("div", { staticClass: "tips" }, [
-                  this._v("æ¯æ—¥0ç‚¹å‘æ”¾ï¼Œç­‰çº§è¶Šé«˜,"),
+                  this._v("每日0点发放，等级越高,"),
                   e("br"),
-                  this._v("è¾£æ¡è¶Šå¤šå“¦"),
+                  this._v("辣条越多哦"),
                 ]),
               ]),
             ]);
@@ -18820,26 +18781,18 @@
                               Object(S.b)().catch(function () {
                                 return null;
                               }),
-                              this.linkMsg(n, "ä½©æˆ´æˆåŠŸ", "success"),
+                              this.linkMsg(n, "佩戴成功", "success"),
                               e.abrupt("return")
                             );
                           case 11:
-                            this.linkMsg(
-                              n,
-                              "ä½©æˆ´å¤±è´¥ï¼Œè¯·é‡è¯•",
-                              "caution"
-                            ),
+                            this.linkMsg(n, "佩戴失败，请重试", "caution"),
                               (e.next = 18);
                             break;
                           case 14:
                             (e.prev = 14),
                               (e.t0 = e.catch(1)),
                               console.log(e.t0),
-                              this.linkMsg(
-                                n,
-                                "ä½©æˆ´å¤±è´¥ï¼Œè¯·é‡è¯•",
-                                "caution"
-                              );
+                              this.linkMsg(n, "佩戴失败，请重试", "caution");
                           case 18:
                           case "end":
                             return e.stop();
@@ -18880,18 +18833,18 @@
                               Object(S.b)().catch(function () {
                                 return null;
                               }),
-                              this.linkMsg(e, "å–æ¶ˆä½©æˆ´æˆåŠŸ", "success"),
+                              this.linkMsg(e, "取消佩戴成功", "success"),
                               t.abrupt("return")
                             );
                           case 11:
-                            this.linkMsg(e, "å–æ¶ˆä½©æˆ´å¤±è´¥", "caution"),
+                            this.linkMsg(e, "取消佩戴失败", "caution"),
                               (t.next = 18);
                             break;
                           case 14:
                             (t.prev = 14),
                               (t.t0 = t.catch(1)),
                               console.log(t.t0),
-                              this.linkMsg(e, "å–æ¶ˆä½©æˆ´å¤±è´¥", "caution");
+                              this.linkMsg(e, "取消佩戴失败", "caution");
                           case 18:
                           case "end":
                             return t.stop();
@@ -18934,7 +18887,7 @@
                 n("div", { staticClass: "medal-ctnr" }, [
                   n("div", { staticClass: "item" }, [
                     n("div", [
-                      t._v(t._s("ã€" + t.medal.medalName + "ã€‘å‹‹ç«  ")),
+                      t._v(t._s("【" + t.medal.medalName + "】勋章 ")),
                     ]),
                     n(
                       "div",
@@ -18957,7 +18910,7 @@
                                 attrs: { type: "ghost" },
                                 on: { click: t.onClickCancelWear },
                               },
-                              [t._v("å–æ¶ˆä½©æˆ´")]
+                              [t._v("取消佩戴")]
                             )
                           : n(
                               "link-button",
@@ -18971,7 +18924,7 @@
                                   },
                                 },
                               },
-                              [t._v("ç«‹å³ä½©æˆ´")]
+                              [t._v("立即佩戴")]
                             ),
                       ],
                       1
@@ -19129,7 +19082,7 @@
                         e.abrupt("return", {
                           error: e.t0,
                           errorType: "error",
-                          errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                          errorMsg: "网络错误或服务器宕机",
                           data: null,
                         })
                       );
@@ -19195,7 +19148,7 @@
                         e.abrupt("return", {
                           error: e.t0,
                           errorType: "error",
-                          errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                          errorMsg: "网络错误或服务器宕机",
                           data: null,
                         })
                       );
@@ -19255,7 +19208,7 @@
                         e.abrupt("return", {
                           error: e.t0,
                           errorType: "error",
-                          errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                          errorMsg: "网络错误或服务器宕机",
                           data: null,
                         })
                       );
@@ -19314,7 +19267,7 @@
                         e.abrupt("return", {
                           error: e.t0,
                           errorType: "error",
-                          errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                          errorMsg: "网络错误或服务器宕机",
                           data: null,
                         })
                       );
@@ -19344,18 +19297,14 @@
         o = "LIVE_BLCOK_EFFECT_STATE",
         a = [
           {
-            text: "å±è”½å…¨éƒ¨ç¤¼ç‰©åŠå¹¿æ’­",
+            text: "屏蔽全部礼物及广播",
             type: [r.a.GiftAnimation, r.a.Notice, r.a.SuperGift, r.a.buffCard],
             checked: !1,
           },
+          { text: "屏蔽抽奖弹幕", type: [r.a.LotteryDanmaku], checked: !1 },
+          { text: "屏蔽进场信息", type: [r.a.EntryInfo], checked: !1 },
           {
-            text: "å±è”½æŠ½å¥–å¼¹å¹•",
-            type: [r.a.LotteryDanmaku],
-            checked: !1,
-          },
-          { text: "å±è”½è¿›åœºä¿¡æ¯", type: [r.a.EntryInfo], checked: !1 },
-          {
-            text: "å±è”½é†’ç›®ç•™è¨€",
+            text: "屏蔽醒目留言",
             type: [r.a.SuperChat],
             checked: !1,
             when: function () {
@@ -19493,12 +19442,12 @@
                     : new Error(
                         e.msg ||
                           e.message ||
-                          "æœåŠ¡ç«¯æŽ¥å£é”™è¯¯ " + t + "__NEPTUNE_IS_MY_WAIFU__"
+                          "服务端接口错误 " + t + "__NEPTUNE_IS_MY_WAIFU__"
                       ),
                 msg:
                   e.msg ||
                   e.message ||
-                  "æœåŠ¡ç«¯æŽ¥å£é”™è¯¯ " + t + "__NEPTUNE_IS_MY_WAIFU__",
+                  "服务端接口错误 " + t + "__NEPTUNE_IS_MY_WAIFU__",
               }
             : null;
         } catch (t) {
@@ -19744,7 +19693,7 @@
       function o(t) {
         return {
           img: t.first_rank_img_url || "",
-          desc: t.rank_name || "å°šæ— æ®µä½",
+          desc: t.rank_name || "尚无段位",
           show: !!t.show_status,
         };
       }
@@ -19902,7 +19851,7 @@
           "vip-icon dp-i-block v-middle flex-no-shrink " +
             (t ? "svip-icon-new" : "vip-icon-new"),
           "",
-          [["title", "ä¸æ¥å½“ä¸€å‘è€çˆ·ä¹ˆï¼Ÿ" + i]]
+          [["title", "不来当一发老爷么？" + i]]
         );
       }
     },
@@ -20008,7 +19957,7 @@
                           t.abrupt("return", {
                             error: t.t0,
                             errorType: "error",
-                            errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                            errorMsg: "网络错误或服务器宕机",
                             data: null,
                           })
                         );
@@ -20083,7 +20032,7 @@
                         e.abrupt("return", {
                           error: e.t0,
                           errorType: "error",
-                          errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                          errorMsg: "网络错误或服务器宕机",
                           data: null,
                         })
                       );
@@ -20142,7 +20091,7 @@
                         e.abrupt("return", {
                           error: e.t0,
                           errorType: "error",
-                          errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                          errorMsg: "网络错误或服务器宕机",
                           data: null,
                         })
                       );
@@ -20208,7 +20157,7 @@
                         e.abrupt("return", {
                           error: e.t0,
                           errorType: "error",
-                          errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                          errorMsg: "网络错误或服务器宕机",
                           data: null,
                         })
                       );
@@ -20266,7 +20215,7 @@
                         n.abrupt("return", {
                           error: n.t0,
                           errorType: "error",
-                          errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                          errorMsg: "网络错误或服务器宕机",
                           data: null,
                         })
                       );
@@ -20327,7 +20276,7 @@
                         e.abrupt("return", {
                           error: e.t0,
                           errorType: "error",
-                          errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                          errorMsg: "网络错误或服务器宕机",
                           data: null,
                         })
                       );
@@ -20386,7 +20335,7 @@
                         e.abrupt("return", {
                           error: e.t0,
                           errorType: "error",
-                          errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                          errorMsg: "网络错误或服务器宕机",
                           data: null,
                         })
                       );
@@ -20447,7 +20396,7 @@
                         e.abrupt("return", {
                           error: e.t0,
                           errorType: "error",
-                          errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                          errorMsg: "网络错误或服务器宕机",
                           data: null,
                         })
                       );
@@ -20862,7 +20811,7 @@
                             e.abrupt("return", {
                               error: e.t0,
                               errorType: "error",
-                              errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                              errorMsg: "网络错误或服务器宕机",
                               data: null,
                             })
                           );
@@ -20920,7 +20869,7 @@
                             r.abrupt("return", {
                               error: r.t0,
                               errorType: "error",
-                              errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                              errorMsg: "网络错误或服务器宕机",
                               data: null,
                             })
                           );
@@ -21347,15 +21296,15 @@
                               (a = this.gameInfo.ourInfo.name),
                               (s = this.gameInfo.opponentInfo.name),
                               (this.rankGiftDesc =
-                                "èµ é€" +
+                                "赠送" +
                                 this.getGiftNameStr(o[a]) +
-                                "ä¸º" +
+                                "为" +
                                 a +
-                                "åº”æ´ï¼Œèµ é€" +
+                                "应援，赠送" +
                                 this.getGiftNameStr(o[s]) +
-                                "ä¸º" +
+                                "为" +
                                 s +
-                                "åº”æ´ã€‚"),
+                                "应援。"),
                               (this.rankList = {
                                 ourInfo: r[a] || null,
                                 opponentInfo: r[s] || null,
@@ -21380,7 +21329,7 @@
                   .map(function (t) {
                     return t.giftName;
                   })
-                  .join("ã€") || "--"
+                  .join("、") || "--"
               );
             }),
             (t.prototype.getWebMatchTeamRank = function () {
@@ -23278,7 +23227,7 @@
                         [t._v(t._s(t.fansClubEntryInfo.anchorName))]
                       ),
                       n("span", { staticClass: "dp-i-block v-middle" }, [
-                        t._v("çš„ç²‰ä¸å›¢"),
+                        t._v("的粉丝团"),
                       ]),
                     ]),
                     n("a", {
@@ -23291,15 +23240,15 @@
                     }),
                     n("p", { staticClass: "club-num-desc" }, [
                       t._v(
-                        "ç²‰ä¸å›¢ç‚¹äº®æˆå‘˜" +
+                        "粉丝团点亮成员" +
                           t._s(t.heartRankCount) +
-                          "äºº, æŒ‰æœ€è¿‘7æ—¥"
+                          "人, 按最近7日"
                       ),
                       n("span", {
                         staticClass:
                           "dp-i-block v-middle xxx-icon xxx-icon-margin",
                       }),
-                      n("span", [t._v("æŠ•å–‚é‡æŽ’åº")]),
+                      n("span", [t._v("投喂量排序")]),
                     ]),
                   ]),
                   n(
@@ -23379,9 +23328,7 @@
                       0 === t.heartRankList.length
                         ? n("div", { staticClass: "empty-stauts-box" }, [
                             n("div", { staticClass: "empty-stauts-box-bg" }),
-                            n("span", [
-                              t._v("è¿‘7æ—¥æ²¡æœ‰å›¢å‘˜èµ é€å°å¿ƒå¿ƒ"),
-                            ]),
+                            n("span", [t._v("近7日没有团员赠送小心心")]),
                           ])
                         : t._e(),
                     ],
@@ -23771,9 +23718,9 @@
               return new A.a(function (e, n) {
                 t.skinConfig
                   ? t.leftTime <= 1
-                    ? n("ç”Ÿæ•ˆæ—¶é—´æœ‰è¯¯")
+                    ? n("生效时间有误")
                     : e()
-                  : n("æ²¡æœ‰é…ç½®ä¿¡æ¯");
+                  : n("没有配置信息");
               });
             }),
             (t.prototype.deleteSkinBySocket = function (t) {
@@ -24201,12 +24148,12 @@
         u.a.getters.baseInfoUser.uid ===
           ("number" == typeof t.uid ? t.uid : parseInt(t.uid)) &&
           Object(l.b)({
-            title: "ä½ è¢«è¸¢å‡ºæˆ¿é—´ " + f.randomEmoji.shock(),
+            title: "你被踢出房间 " + f.randomEmoji.shock(),
             content:
-              "å¾ˆä¸å¹¸çš„æ˜¯æ‚¨è¢«ç®¡ç†å‘˜è¸¢å‡ºäº†æˆ¿é—´â€¦â€¦ æ˜¯ä¸æ˜¯åšäº†ä»€ä¹ˆä¸ç¤¼è²Œçš„äº‹æƒ…å‘¢ï¼Ÿæ‘¸æ‘¸~ " +
+              "很不幸的是您被管理员踢出了房间…… 是不是做了什么不礼貌的事情呢？摸摸~ " +
               f.randomEmoji.sad(),
             width: 500,
-            button: { confirm: "å‘œ~~~~", cancel: !1 },
+            button: { confirm: "呜~~~~", cancel: !1 },
           }).onConfirm(function () {
             window.location.href = "/";
           });
@@ -24214,17 +24161,16 @@
       function $(t) {
         var e;
         (e = {
-          title: "ç³»ç»Ÿé€šçŸ¥",
+          title: "系统通知",
           content: "",
           width: 0,
-          button: { confirm: "ç¡®å®š", cancel: !1 },
+          button: { confirm: "确定", cancel: !1 },
         }),
           u.a.getters.baseInfoUser.isAnchor
             ? ((e.html =
-                '<p style="margin: 10px 0; line-height: 1.5; font-size: 12px">æ‚¨çš„æˆ¿é—´å·²è¢«<span style="color: #FF0000">é”å®š</span>ã€‚å¦‚æœ‰ç–‘é—®è¯·æŸ¥çœ‹bilibiliä¸»æ’­ç›´æ’­è§„èŒƒæˆ–è”ç³»å®¢æœã€‚</p><p><a style="color: #23ade5" href="//link.bilibili.com/p/eden/news#/newsdetail?id=135", target="_blank">æŸ¥çœ‹è§„èŒƒ</a></p>'),
+                '<p style="margin: 10px 0; line-height: 1.5; font-size: 12px">您的房间已被<span style="color: #FF0000">锁定</span>。如有疑问请查看bilibili主播直播规范或联系客服。</p><p><a style="color: #23ade5" href="//link.bilibili.com/p/eden/news#/newsdetail?id=135", target="_blank">查看规范</a></p>'),
               (e.width = 350))
-            : ((e.content = "å½“å‰ç›´æ’­é—´è¢«ç›´æ’­ç®¡ç†å‘˜å…³é—­ã€‚"),
-              (e.width = 300)),
+            : ((e.content = "当前直播间被直播管理员关闭。"), (e.width = 300)),
           Object(l.b)(e).onConfirm(function () {
             window.location.href = "/";
           });
@@ -24256,7 +24202,7 @@
         });
       };
       function et(t) {
-        console.error("[Error] ç¦è¨€æ¨¡å—åŠ è½½å¤±è´¥: ", t);
+        console.error("[Error] 禁言模块加载失败: ", t);
       }
       var nt = n(458),
         rt = n(68),
@@ -25021,7 +24967,7 @@
         try {
           t.on("receiveMessage", Ce);
         } catch (t) {
-          return xe("socket äº‹ä»¶æ³¨å†Œå¤±è´¥", t);
+          return xe("socket 事件注册失败", t);
         }
       }
       function Ce(t) {
@@ -25087,12 +25033,11 @@
                             break;
                           case 13:
                             Object(l.b)({
-                              title: "ç³»ç»Ÿé€šçŸ¥",
-                              content:
-                                "å½“å‰ç›´æ’­é—´è¢«ç›´æ’­ç®¡ç†å‘˜åˆ‡æ–­ç›´æ’­ã€‚",
+                              title: "系统通知",
+                              content: "当前直播间被直播管理员切断直播。",
                               width: 300,
                               button: {
-                                confirm: "æ‚²ç—›æ¬²ç» " + f.randomEmoji.sad(),
+                                confirm: "悲痛欲绝 " + f.randomEmoji.sad(),
                                 cancel: !1,
                               },
                             });
@@ -25132,9 +25077,9 @@
                             u.a.getters.baseInfoUser.isAnchor
                               ? ((n = t.msg),
                                 Object(l.b)({
-                                  title: "å‹æƒ…æç¤º",
+                                  title: "友情提示",
                                   width: 300,
-                                  button: { confirm: "çŸ¥é“äº†", cancel: !1 },
+                                  button: { confirm: "知道了", cancel: !1 },
                                   content: n,
                                   hideMask: !0,
                                 }))
@@ -27644,7 +27589,7 @@
                               e.abrupt("return", {
                                 error: e.t0,
                                 errorType: "error",
-                                errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                                errorMsg: "网络错误或服务器宕机",
                                 data: null,
                               })
                             );
@@ -27781,7 +27726,7 @@
                   arguments.length > 0 && void 0 !== arguments[0]
                     ? arguments[0]
                     : "";
-                a.print("error", t + " å¼¹çª—é…ç½®æœªæ³¨å†Œï¼Œ è¯·å…ˆæ³¨å†Œ");
+                a.print("error", t + " 弹窗配置未注册， 请先注册");
               })(n)
           : m(u[n]);
       }
@@ -27845,10 +27790,7 @@
           arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : "";
         a.print(
           "error",
-          t +
-            " å¼¹çª—ç±»åž‹æœªé¢„å®šä¹‰ï¼Œ è¯·åœ¨" +
-            a.moduleName +
-            " Module å®šä¹‰åŽä½¿ç”¨"
+          t + " 弹窗类型未预定义， 请在" + a.moduleName + " Module 定义后使用"
         );
       }
       function v() {
@@ -28875,7 +28817,7 @@
           deleteWish: "/live_user/v1/WishBottle/myWishDelete",
           finishWish: "/live_user/v1/WishBottle/myWishFinish",
         },
-        p = "è¿”å›ž Code éž 0";
+        p = "返回 Code 非 0";
       function h(t) {
         var e = arguments.length > 1 && void 0 !== arguments[1] && arguments[1];
         return l(
@@ -28933,7 +28875,7 @@
                         n.abrupt("return", {
                           error: n.t0,
                           errorType: "error",
-                          errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                          errorMsg: "网络错误或服务器宕机",
                           data: null,
                         })
                       );
@@ -28997,7 +28939,7 @@
                         t.abrupt("return", {
                           error: t.t0,
                           errorType: "error",
-                          errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                          errorMsg: "网络错误或服务器宕机",
                           data: null,
                         })
                       );
@@ -29057,7 +28999,7 @@
                         e.abrupt("return", {
                           error: e.t0,
                           errorType: "error",
-                          errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                          errorMsg: "网络错误或服务器宕机",
                           data: null,
                         })
                       );
@@ -29117,7 +29059,7 @@
                         e.abrupt("return", {
                           error: e.t0,
                           errorType: "error",
-                          errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                          errorMsg: "网络错误或服务器宕机",
                           data: null,
                         })
                       );
@@ -29181,7 +29123,7 @@
                         t.abrupt("return", {
                           error: t.t0,
                           errorType: "error",
-                          errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                          errorMsg: "网络错误或服务器宕机",
                           data: null,
                         })
                       );
@@ -29245,7 +29187,7 @@
                         t.abrupt("return", {
                           error: t.t0,
                           errorType: "error",
-                          errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                          errorMsg: "网络错误或服务器宕机",
                           data: null,
                         })
                       );
@@ -29305,7 +29247,7 @@
                         e.abrupt("return", {
                           error: e.t0,
                           errorType: "error",
-                          errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                          errorMsg: "网络错误或服务器宕机",
                           data: null,
                         })
                       );
@@ -30106,7 +30048,7 @@
                             0 === (n = t.sent).code
                               ? ((r = u.b.filterUserExtraInfo(n.data)),
                                 this.setExtraConfig(r))
-                              : S("å¼¹å¹•ç›¸å…³é…ç½®èŽ·å–å¤±è´¥", n.errorMsg);
+                              : S("弹幕相关配置获取失败", n.errorMsg);
                           case 5:
                           case "end":
                             return t.stop();
@@ -30760,7 +30702,7 @@
                         }
                         return e.abrupt("return", {
                           error: new Error(
-                            r.msg || "getBackgroundImages è¿”å›ž Code ä¸ä¸º 0"
+                            r.msg || "getBackgroundImages 返回 Code 不为 0"
                           ),
                           errorType: "caution",
                           errorMsg: r.msg,
@@ -30779,7 +30721,7 @@
                           e.abrupt("return", {
                             error: e.t0,
                             errorType: "error",
-                            errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                            errorMsg: "网络错误或服务器宕机",
                             data: null,
                           })
                         );
@@ -30855,7 +30797,7 @@
                       }
                       return r.abrupt("return", {
                         error: new Error(
-                          a.msg || "updateBackgroundImage è¿”å›ž Code ä¸ä¸º 0"
+                          a.msg || "updateBackgroundImage 返回 Code 不为 0"
                         ),
                         errorType: "caution",
                         errorMsg: a.msg,
@@ -30871,7 +30813,7 @@
                         r.abrupt("return", {
                           error: r.t0,
                           errorType: "error",
-                          errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                          errorMsg: "网络错误或服务器宕机",
                           data: null,
                         })
                       );
@@ -30943,7 +30885,7 @@
                       }
                       return n.abrupt("return", {
                         error: new Error(
-                          i.msg || "updateBackgroundImage è¿”å›ž Code ä¸ä¸º 0"
+                          i.msg || "updateBackgroundImage 返回 Code 不为 0"
                         ),
                         errorType: "caution",
                         errorMsg: i.msg,
@@ -30959,7 +30901,7 @@
                         n.abrupt("return", {
                           error: n.t0,
                           errorType: "error",
-                          errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                          errorMsg: "网络错误或服务器宕机",
                           data: null,
                         })
                       );
@@ -31032,7 +30974,7 @@
                       }
                       return n.abrupt("return", {
                         error: new Error(
-                          i.msg || "updateBackgroundImage è¿”å›ž Code ä¸ä¸º 0"
+                          i.msg || "updateBackgroundImage 返回 Code 不为 0"
                         ),
                         errorType: "caution",
                         errorMsg: i.msg,
@@ -31048,7 +30990,7 @@
                         n.abrupt("return", {
                           error: n.t0,
                           errorType: "error",
-                          errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                          errorMsg: "网络错误或服务器宕机",
                           data: null,
                         })
                       );
@@ -31375,7 +31317,7 @@
       var r = n(16);
       function i(t, e) {
         if (0 !== e && t !== e) {
-          Object(r.c)("core/rewrite-short-id")("è·³è½¬è‡³çŸ­ä½å·ï¼š", e);
+          Object(r.c)("core/rewrite-short-id")("跳转至短位号：", e);
           var n = window.location.pathname.replace(new RegExp(t + ""), e + ""),
             i = window.location.search;
           window.history.replaceState
@@ -31443,7 +31385,7 @@
                         (n = e.sent),
                         (r = n.serverResponse).error &&
                           Object(u.b)("modules/enter-failure")(
-                            "èŽ·å–ç›´æ’­é—´å°ç¦ä¿¡æ¯é”™è¯¯",
+                            "获取直播间封禁信息错误",
                             r
                           ),
                         e.abrupt("return", r)
@@ -31551,7 +31493,7 @@
                         (n.prev = 16),
                         (n.t0 = n.catch(8)),
                         (l =
-                          "/xlive/web-room/v2/index/getRoomPlayInfo æŽ¥å£è¯·æ±‚é”™è¯¯"),
+                          "/xlive/web-room/v2/index/getRoomPlayInfo 接口请求错误"),
                         (p = n.t0.serverResponse || {
                           data: null,
                           error: new Error(l),
@@ -31796,9 +31738,9 @@
                         s.error &&
                           (s.errorMsg =
                             null === s.code
-                              ? "é€ç¤¼å¤±è´¥ï¼Œå¯èƒ½æ˜¯ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœºï¼Œè¯·æ‚¨ç¨åŽå†è¯•ï¼Œéžå¸¸å¯¹ä¸èµ· " +
+                              ? "送礼失败，可能是网络错误或服务器宕机，请您稍后再试，非常对不起 " +
                                 f.randomEmoji.sad()
-                              : "é€ç¤¼å¤±è´¥ï¼š" +
+                              : "送礼失败：" +
                                 s.error.message +
                                 " " +
                                 f.randomEmoji.shock()),
@@ -31852,7 +31794,7 @@
           combo_resources_id: t.combo_resources_id,
           is_special_batch: t.is_special_batch,
           magnification: t.magnification,
-          action: t.gift_action || "èµ é€",
+          action: t.gift_action || "赠送",
           giftID: t.gift_id || 0,
           giftLabel: t.gift_name || "--",
           giftPrice: t.gift_price || 0,
@@ -31946,9 +31888,7 @@
                       return (
                         (b =
                           "gift-service/sendGift " +
-                          (r
-                            ? "æœªæˆåŠŸèŽ·å–åˆæ³• rnd"
-                            : "æœªæˆåŠŸèŽ·å–åˆæ³•æˆ¿é—´å·")),
+                          (r ? "未成功获取合法 rnd" : "未成功获取合法房间号")),
                         e.abrupt("return", {
                           code: 200005,
                           error: new Error(b),
@@ -31963,12 +31903,12 @@
                         break;
                       }
                       return (
-                        (y = "è‡ªå·±ä¸èƒ½ä¸ºè‡ªå·±é€ç¤¼"),
+                        (y = "自己不能为自己送礼"),
                         e.abrupt("return", {
                           code: 200005,
                           data: null,
                           error: new Error(y),
-                          errorMsg: y + "å–” " + f.randomEmoji.helpless(),
+                          errorMsg: y + "喔 " + f.randomEmoji.helpless(),
                           errorType: "info",
                         })
                       );
@@ -31978,12 +31918,12 @@
                         break;
                       }
                       return (
-                        (k = "è¯·è¾“å…¥æ­£ç¡®çš„é€ç¤¼æ•°é‡"),
+                        (k = "请输入正确的送礼数量"),
                         e.abrupt("return", {
                           code: 200005,
                           data: null,
                           error: new Error(k),
-                          errorMsg: k + "å–” " + f.randomEmoji.helpless(),
+                          errorMsg: k + "喔 " + f.randomEmoji.helpless(),
                           errorType: "info",
                         })
                       );
@@ -32106,7 +32046,7 @@
                       try {
                         T.giftEffect.broadcastMsgList.forEach(v.w);
                       } catch (t) {
-                        Object(p.b)(R)("livePlayer/noticeGift æ‰§è¡Œå¤±è´¥", t);
+                        Object(p.b)(R)("livePlayer/noticeGift 执行失败", t);
                       }
                       return (
                         u.default.$emit("GiftService: Sent", T),
@@ -33034,7 +32974,7 @@
                 (a = (o < 3 ? i(a) : o > 3 ? i(e, n, a) : i(e, n)) || a);
           return o > 3 && a && f()(e, n, a), a;
         },
-        F = { live: "ç›´æ’­", round: "è½®æ’­", preparing: "é—²ç½®" },
+        F = { live: "直播", round: "轮播", preparing: "闲置" },
         U = (function (t) {
           function e() {
             return i()(this, e), a()(this, t.apply(this, arguments));
@@ -33276,7 +33216,7 @@
                             n(
                               "span",
                               { staticClass: "rank-text v-middle dp-i-block" },
-                              [t._v("å‘¨æ˜Ÿæ¦œ")]
+                              [t._v("周星榜")]
                             ),
                             n(
                               "span",
@@ -33761,7 +33701,7 @@
               Object(ct.d)("webMatchTeamRoomShare"),
                 this.linkPopup({
                   button: !1,
-                  title: "åˆ†äº«ç»™ä½ çš„å°ä¼™ä¼´",
+                  title: "分享给你的小伙伴",
                   width: 468,
                   component: {
                     components: {
@@ -33797,8 +33737,8 @@
                           case 2:
                             (e = void 0),
                               this.linkPopup({
-                                button: { confirm: "ä¸¾æŠ¥", cancel: "å–æ¶ˆ" },
-                                title: "æˆ¿é—´ä¸¾æŠ¥",
+                                button: { confirm: "举报", cancel: "取消" },
+                                title: "房间举报",
                                 width: 408,
                                 component: {
                                   components: {
@@ -33882,7 +33822,7 @@
                                   console.warn("[ChangeTitleErr]:", o.error))
                                 : (this.linkMsg(
                                     t.target,
-                                    "ä¿®æ”¹æˆåŠŸ " + R.randomEmoji.happy(),
+                                    "修改成功 " + R.randomEmoji.happy(),
                                     "success"
                                   ),
                                   this.toggleTitleEditMode());
@@ -33943,7 +33883,7 @@
               var e = this;
               this.linkPopup({
                 button: !1,
-                title: "æˆ¿é—´ç®¡ç†",
+                title: "房间管理",
                 width: 504,
                 component: {
                   data: function () {
@@ -33973,7 +33913,7 @@
             (e.prototype.editCover = function () {
               this.linkPopup({
                 button: !1,
-                title: "å¼€æ’­å°é¢è®¾ç½®",
+                title: "开播封面设置",
                 width: 528,
                 component: {
                   components: {
@@ -34078,7 +34018,7 @@
             (e.prototype.editArea = function () {
               this.linkPopup({
                 button: !1,
-                title: "ç›´æ’­åˆ†ç±»",
+                title: "直播分类",
                 width: 406,
                 component: {
                   components: {
@@ -34187,7 +34127,7 @@
                     ? "--"
                     : t < 1e4
                     ? t
-                    : (t / 1e4).toFixed(1) + "ä¸‡";
+                    : (t / 1e4).toFixed(1) + "万";
                 },
               },
               {
@@ -34278,9 +34218,7 @@
                     a = e,
                     s = "round" === n.toLowerCase();
                   return {
-                    roomTitle: (a = s
-                      ? o + "çš„æŠ•ç¨¿è§†é¢‘"
-                      : a || o + "çš„ç›´æ’­é—´"),
+                    roomTitle: (a = s ? o + "的投稿视频" : a || o + "的直播间"),
                     roundStatus: s,
                     areaName: r,
                     parentAreaName: i,
@@ -34401,7 +34339,7 @@
                                 },
                                 on: { click: t.changeTitle },
                               },
-                              [t._v("ç¡®è®¤")]
+                              [t._v("确认")]
                             ),
                             n(
                               "live-button",
@@ -34414,7 +34352,7 @@
                                 },
                                 on: { click: t.toggleTitleEditMode },
                               },
-                              [t._v("å–æ¶ˆ")]
+                              [t._v("取消")]
                             ),
                           ],
                           1
@@ -34454,7 +34392,7 @@
                                 ? n("i", {
                                     staticClass:
                                       "icon-font icon-edit live-skin-normal-text v-middle dp-i-block pointer ts-dot-4",
-                                    attrs: { title: "ç¼–è¾‘æˆ¿é—´æ ‡é¢˜" },
+                                    attrs: { title: "编辑房间标题" },
                                     on: { click: t.toggleTitleEditMode },
                                   })
                                 : t._e(),
@@ -34500,7 +34438,7 @@
                                 ? n("i", {
                                     staticClass:
                                       "icon-font icon-edit live-skin-normal-a-text v-middle dp-i-block pointer ts-dot-4",
-                                    attrs: { title: "ç¼–è¾‘æˆ¿é—´åˆ†åŒº" },
+                                    attrs: { title: "编辑房间分区" },
                                     on: { click: t.editArea },
                                   })
                                 : t._e(),
@@ -34540,7 +34478,7 @@
                                   staticClass:
                                     "action-text v-middle dp-i-block",
                                 },
-                                [t._v("ç®¡ç†")]
+                                [t._v("管理")]
                               ),
                               n(
                                 "transition",
@@ -34560,7 +34498,7 @@
                                         },
                                         [
                                           t._v(
-                                            "å¯ä»¥åœ¨æ­¤è¿›è¡Œæˆ¿é—´ç®¡ç†ï¼Œå¿«æ¥è¯•è¯•å§~"
+                                            "可以在此进行房间管理，快来试试吧~"
                                           ),
                                         ]
                                       )
@@ -34586,7 +34524,7 @@
                                             },
                                           },
                                         },
-                                        [t._v("æˆ¿ç®¡å’Œç¦è¨€")]
+                                        [t._v("房管和禁言")]
                                       ),
                                       n(
                                         "p",
@@ -34599,7 +34537,7 @@
                                             },
                                           },
                                         },
-                                        [t._v("å¼€æ’­å°é¢")]
+                                        [t._v("开播封面")]
                                       ),
                                       n(
                                         "a",
@@ -34621,7 +34559,7 @@
                                             target: "_blank",
                                           },
                                         },
-                                        [t._v("å¼€æ’­è®¾ç½®")]
+                                        [t._v("开播设置")]
                                       ),
                                       t._l(t.broadcastHotList, function (e) {
                                         return t.showHotModule
@@ -34668,7 +34606,7 @@
                                   staticClass:
                                     "action-text v-middle dp-i-block",
                                 },
-                                [t._v("ç¦è¨€")]
+                                [t._v("禁言")]
                               ),
                             ]
                           )
@@ -34691,7 +34629,7 @@
                                   staticClass:
                                     "action-text v-middle dp-i-block",
                                 },
-                                [t._v("ä¸¾æŠ¥")]
+                                [t._v("举报")]
                               ),
                             ]
                           )
@@ -34710,7 +34648,7 @@
                           n(
                             "span",
                             { staticClass: "action-text v-middle dp-i-block" },
-                            [t._v("åˆ†äº«")]
+                            [t._v("分享")]
                           ),
                         ]
                       ),
@@ -34722,8 +34660,8 @@
                               attrs: {
                                 title:
                                   "--" === t.onlineCount
-                                    ? "åªæœ‰å¼€æ’­çŠ¶æ€æ‰ä¼šæ˜¾ç¤ºäººæ°”å“Ÿï½ž"
-                                    : "äººæ°”å€¼",
+                                    ? "只有开播状态才会显示人气哟～"
+                                    : "人气值",
                               },
                             },
                             [
@@ -34902,25 +34840,24 @@
         },
         Mt =
           (((Ct = {})[Lt.attention] = {
-            text: "å·²å…³æ³¨",
-            aria: "ç‚¹å‡»å–æ¶ˆå…³æ³¨ä¸»æ’­",
-            title: "ç‚¹å‡»å–æ¶ˆå…³æ³¨ä¸»æ’­",
+            text: "已关注",
+            aria: "点击取消关注主播",
+            title: "点击取消关注主播",
           }),
           (Ct[Lt.unAttention] = {
-            text: "å…³æ³¨",
-            aria: "ç‚¹å‡»å…³æ³¨ä¸»æ’­",
-            title:
-              "å–œæ¬¢ TA å°±å…³æ³¨ TA å§ï¼Œæ—¶åˆ»è·Ÿä¸Šä¸»æ’­æ­¥ä¼ _(:3 ã€âˆ )_",
+            text: "关注",
+            aria: "点击关注主播",
+            title: "喜欢 TA 就关注 TA 吧，时刻跟上主播步伐 _(:3 」∠)_",
           }),
           (Ct[Lt.joinFansClub] = {
-            text: "ç²‰ä¸å›¢ ",
-            aria: "ç‚¹å‡»æŸ¥çœ‹ç²‰ä¸å‹‹ç« é¢æ¿",
-            title: "ç‚¹å‡»æŸ¥çœ‹ç²‰ä¸å‹‹ç« é¢æ¿",
+            text: "粉丝团 ",
+            aria: "点击查看粉丝勋章面板",
+            title: "点击查看粉丝勋章面板",
           }),
           (Ct[Lt.unJoinFansClub] = {
-            text: "+ ç²‰ä¸å›¢",
-            aria: "ç‚¹å‡»åŠ å…¥ç²‰ä¸å›¢",
-            title: "ç‚¹å‡»åŠ å…¥ç²‰ä¸å›¢",
+            text: "+ 粉丝团",
+            aria: "点击加入粉丝团",
+            title: "点击加入粉丝团",
           }),
           Ct),
         Pt = n(96),
@@ -35070,7 +35007,7 @@
                               "return",
                               this.linkMsg(
                                 t.target,
-                                "è‡ªå·±ä¸èƒ½å…³æ³¨è‡ªå·±å–” " +
+                                "自己不能关注自己喔 " +
                                   R.randomEmoji.helpless(),
                                 "info"
                               )
@@ -35079,10 +35016,7 @@
                             return (
                               Q.default.report(
                                 "liveroom_follow_click",
-                                {
-                                  tag_name: "æ’­æ”¾å™¨ä¸Šæ–¹",
-                                  follow_status: 1,
-                                },
+                                { tag_name: "播放器上方", follow_status: 1 },
                                 Object(Ot.a)()
                               ),
                               (this.actionLoading = !0),
@@ -35100,7 +35034,7 @@
                                   )
                                 : this.linkMsg(
                                     t.target,
-                                    "è¡¨ç™½ä¸»æ’­å¹¶æš—ä¸­è§‚å¯Ÿ " +
+                                    "表白主播并暗中观察 " +
                                       R.randomEmoji.happy(),
                                     "success"
                                   );
@@ -35121,9 +35055,9 @@
                 !this.baseInfoUser.isInFansClub &&
                 this.baseInfoUser.guideFollow &&
                 (Et({
-                  title: "ä¸»æ’­é‚€è¯·æ‚¨åŠ å…¥ç²‰ä¸å›¢",
-                  message: "å‡çº§è§£é”å¼¹å¹•æ–°é¢œè‰²",
-                  btnText: "å³åˆ»å…¥å›¢",
+                  title: "主播邀请您加入粉丝团",
+                  message: "升级解锁弹幕新颜色",
+                  btnText: "即刻入团",
                   btnCallback: function () {
                     return t.showJoinFansDialog();
                   },
@@ -35134,17 +35068,17 @@
               var e = this;
               Q.default.report(
                 "liveroom_follow_click",
-                { tag_name: "æ’­æ”¾å™¨ä¸Šæ–¹", follow_status: 2 },
+                { tag_name: "播放器上方", follow_status: 2 },
                 Object(Ot.a)()
               ),
                 this.linkPopup({
-                  title: "å–æ¶ˆå…³æ³¨",
+                  title: "取消关注",
                   html:
-                    '\n        <p style="margin:27p0 32p0; font-size:14px; color:#666">ç¡®å®šè¦å¼ƒä½ çš„ä¸»æ’­è€ŒåŽ»å—ï¼Ÿ' +
+                    '\n        <p style="margin:27p0 32p0; font-size:14px; color:#666">确定要弃你的主播而去吗？' +
                     R.randomEmoji.sad() +
                     "</p>\n      ",
                   width: 336,
-                  button: { confirm: "æ®‹å¿å–å…³", cancel: "å†è€ƒè™‘ä¸€ä¸‹" },
+                  button: { confirm: "残忍取关", cancel: "再考虑一下" },
                 }).onConfirm(function (n) {
                   return Dt(
                     e,
@@ -35173,7 +35107,7 @@
                                       )
                                     : this.linkMsg(
                                         t.target,
-                                        "å¥½æ„Ÿåº¦ -1 " + R.randomEmoji.shock(),
+                                        "好感度 -1 " + R.randomEmoji.shock(),
                                         "info"
                                       ),
                                   n.close().catch(function () {
@@ -35254,9 +35188,9 @@
                   t &&
                     setTimeout(function () {
                       Et({
-                        title: "å‹‹ç« å‡çº§å¤ªæ…¢ï¼Ÿ",
-                        message: "è´­ä¹°å¤§èˆªæµ·çªç ´20çº§",
-                        btnText: "å³åˆ»ä¸Šèˆ¹",
+                        title: "勋章升级太慢？",
+                        message: "购买大航海突破20级",
+                        btnText: "即刻上船",
                         btnCallback: function () {
                           return Object(Pt.b)();
                         },
@@ -35492,7 +35426,7 @@
                                       staticClass:
                                         "subscribe-notification p-relative w-100 h-100",
                                     },
-                                    [t._v("ä¸ºä¸»æ’­æ‰“ call")]
+                                    [t._v("为主播打 call")]
                                   ),
                                 ]
                               )
@@ -35728,7 +35662,7 @@
                   n("drop-bubble", { attrs: { show: t.isDropShow } }, [
                     n("div", { staticClass: "master-rank-ctnr" }, [
                       n("p", { staticClass: "rank-text-ctnr" }, [
-                        t._v("å½“å‰æŽ’åï¼š"),
+                        t._v("当前排名："),
                         n("span", {
                           staticClass: "rank-text",
                           domProps: { textContent: t._s(t.masterInfo.sort) },
@@ -35738,9 +35672,9 @@
                     n("div", { staticClass: "progress-outer-ctnr" }, [
                       n("p", { staticClass: "next-text t-center" }, [
                         t._v(
-                          "å‡çº§è¿˜éœ€ " +
+                          "升级还需 " +
                             t._s(t.masterInfo.upgradeScore) +
-                            " ç§¯åˆ†"
+                            " 积分"
                         ),
                       ]),
                       n("div", { staticClass: "progress-ctnr" }),
@@ -35769,13 +35703,11 @@
                       ),
                     ]),
                     n("p", { staticClass: "score-introduction" }, [
-                      t._v("ç§¯åˆ†é€šè¿‡èŽ·å¾—çš„é“å…·æå‡ï¼Œæ¯ "),
-                      n("span", { staticClass: "emphasis" }, [
-                        t._v("100ç“œå­"),
-                      ]),
-                      t._v(" çš„ç¤¼ç‰©æå‡ "),
-                      n("span", { staticClass: "emphasis" }, [t._v("1ç‚¹")]),
-                      t._v(" ç§¯åˆ†ã€‚"),
+                      t._v("积分通过获得的道具提升，每 "),
+                      n("span", { staticClass: "emphasis" }, [t._v("100瓜子")]),
+                      t._v(" 的礼物提升 "),
+                      n("span", { staticClass: "emphasis" }, [t._v("1点")]),
+                      t._v(" 积分。"),
                     ]),
                   ]),
                 ],
@@ -36058,7 +35990,7 @@
                     this.roomRank.index,
                   target: "_blank",
                   rel: "noopener",
-                  title: "å…ƒæ°”ä¸»æ’­æ¦œ",
+                  title: "元气主播榜",
                 },
               },
               [
@@ -36155,62 +36087,62 @@
                 {
                   node: 1,
                   levelDes:
-                    'ç²‰ä¸å‹‹ç« <span style="color: #666666;">ä¸“å±žå¤§ç¤¼åŒ…</span>',
+                    '粉丝勋章<span style="color: #666666;">专属大礼包</span>',
                 },
                 {
                   node: 5,
                   levelDes:
-                    'ä¸“å±žå¼¹å¹•é¢œè‰²<span style="color: #666666;">æ¾çŸ³ç»¿</span>',
+                    '专属弹幕颜色<span style="color: #666666;">松石绿</span>',
                 },
                 {
                   node: 10,
                   levelDes:
-                    'ä¸“å±žç¤¼ç‰©<span style="color: #666666;">æ³¡æ³¡æœº</span>è´­ä¹°èµ„æ ¼',
+                    '专属礼物<span style="color: #666666;">泡泡机</span>购买资格',
                 },
                 {
                   node: 15,
                   levelDes:
-                    'ä¸“å±žå¼¹å¹•é¢œè‰²<span style="color: #666666;">é›¨åŽè“</span>',
+                    '专属弹幕颜色<span style="color: #666666;">雨后蓝</span>',
                 },
                 {
                   node: 22,
                   levelDes:
-                    'ä¸“å±žå¼¹å¹•é¢œè‰²<span style="color: #666666;">æ˜Ÿç©ºè“</span>',
+                    '专属弹幕颜色<span style="color: #666666;">星空蓝</span>',
                 },
                 {
                   node: 24,
                   levelDes:
-                    'ä¸“å±žç¤¼ç‰©<span style="color: #666666;">çˆ±ä¹‹é­”åŠ›</span>',
+                    '专属礼物<span style="color: #666666;">爱之魔力</span>',
                 },
                 {
                   node: 26,
                   levelDes:
-                    'ä¸“å±žå¼¹å¹•é¢œè‰²<span style="color: #666666;">ç´«ç½—å…°</span>',
+                    '专属弹幕颜色<span style="color: #666666;">紫罗兰</span>',
                 },
                 {
                   node: 28,
                   levelDes:
-                    'ä¸“å±žç¤¼ç‰©<span style="color: #666666;">æ‘©å¤©è½®</span>',
+                    '专属礼物<span style="color: #666666;">摩天轮</span>',
                 },
                 {
                   node: 30,
                   levelDes:
-                    'ä¸“å±žå¼¹å¹•é¢œè‰²<span style="color: #666666;">æ¢¦å¢ƒçº¢</span>',
+                    '专属弹幕颜色<span style="color: #666666;">梦境红</span>',
                 },
                 {
                   node: 32,
                   levelDes:
-                    '<span style="color: #666666;">è½¬è¿é”¦é²¤</span>è´­ä¹°èµ„æ ¼',
+                    '<span style="color: #666666;">转运锦鲤</span>购买资格',
                 },
                 {
                   node: 34,
                   levelDes:
-                    'ä¸“å±žå¼¹å¹•é¢œè‰²<span style="color: #666666;">çƒ­åŠ›æ©™</span>',
+                    '专属弹幕颜色<span style="color: #666666;">热力橙</span>',
                 },
                 {
                   node: 38,
                   levelDes:
-                    'ä¸“å±žå¼¹å¹•é¢œè‰²<span style="color: #666666;">é¦™æ§Ÿé‡‘</span>',
+                    '专属弹幕颜色<span style="color: #666666;">香槟金</span>',
                 },
               ]),
               n
@@ -36283,7 +36215,7 @@
                     )
                       e >= r[i].node &&
                         e < r[i + 1].node &&
-                        (n = r[i + 1].node + "çº§è§£é”" + r[i + 1].levelDes),
+                        (n = r[i + 1].node + "级解锁" + r[i + 1].levelDes),
                         e >= 15 && e <= 20 && (n = "");
                     return n;
                   }
@@ -36298,15 +36230,15 @@
                     e = t.level,
                     n = t.isLight;
                   return 40 === e
-                    ? "å‹‹ç« å·²è¾¾æ»¡çº§ä¸Šé™"
+                    ? "勋章已达满级上限"
                     : !n && e < 20
-                    ? "å‘å¼¹å¹•ã€æŠ•å–‚å°å¿ƒå¿ƒæˆ–ç¤¼ç‰©å‡å¯ç‚¹äº®å‹‹ç« "
+                    ? "发弹幕、投喂小心心或礼物均可点亮勋章"
                     : n && e < 20
-                    ? "æ¯æ—¥é¦–æ¡å¼¹å¹•ã€æŠ•å–‚å°å¿ƒå¿ƒæˆ–ç¤¼ç‰©å¯å¢žåŠ äº²å¯†åº¦"
+                    ? "每日首条弹幕、投喂小心心或礼物可增加亲密度"
                     : !n && e > 20 && e < 40
-                    ? "å‘å¼¹å¹•ã€æŠ•å–‚å°å¿ƒå¿ƒæˆ–ç¤¼ç‰©å‡å¯ç‚¹äº®å‹‹ç« "
+                    ? "发弹幕、投喂小心心或礼物均可点亮勋章"
                     : n && e > 20 && e < 40
-                    ? "æŠ•å–‚ç¤¼ç‰©å¯å¢žåŠ åŽŸåŠ›å€¼"
+                    ? "投喂礼物可增加原力值"
                     : void 0;
                 },
               },
@@ -36379,7 +36311,7 @@
                               n(
                                 "span",
                                 { staticClass: "dp-i-block v-middle" },
-                                [t._v("çš„ç²‰ä¸å›¢")]
+                                [t._v("的粉丝团")]
                               ),
                               n("a", {
                                 staticClass: "dp-i-block v-middle qs-icon",
@@ -36404,7 +36336,7 @@
                                   [
                                     n("span", [
                                       t._v(
-                                        "ç²‰ä¸å›¢ï¼š " +
+                                        "粉丝团： " +
                                           t._s(t.fansMedalLightCount)
                                       ),
                                     ]),
@@ -36488,7 +36420,7 @@
                                             staticClass:
                                               "dp-i-block full-level",
                                           },
-                                          [t._v("æ»¡çº§å•¦~")]
+                                          [t._v("满级啦~")]
                                         )
                                       : t._e(),
                                   ],
@@ -36499,7 +36431,7 @@
                               ? n("p", { staticClass: "upgrade-desc" }, [
                                   n("span", [
                                     t._v(
-                                      "è¿˜å·®" +
+                                      "还差" +
                                         t._s(
                                           t.format(
                                             t.medalInfo.nextIntimacy -
@@ -36509,9 +36441,9 @@
                                     ),
                                   ]),
                                   t.medalInfo.level <= 20
-                                    ? n("span", [t._v("äº²å¯†åº¦")])
-                                    : n("span", [t._v("åŽŸåŠ›å€¼")]),
-                                  n("span", [t._v("å‡çº§ï¼›")]),
+                                    ? n("span", [t._v("亲密度")])
+                                    : n("span", [t._v("原力值")]),
+                                  n("span", [t._v("升级；")]),
                                   t.medalDescTop
                                     ? n("span", {
                                         domProps: {
@@ -36637,7 +36569,7 @@
                                     ? n("span", [t._v(t._s(t.medalDescBottom))])
                                     : t._e(),
                                   t.medalDescBottom && t.medalInfo.level <= 20
-                                    ? n("span", [t._v("ï¼›")])
+                                    ? n("span", [t._v("；")])
                                     : t._e(),
                                   t.medalInfo.level <= 20
                                     ? n(
@@ -36646,11 +36578,11 @@
                                           staticClass: "text-button",
                                           on: { click: t.showVipDialog },
                                         },
-                                        [t._v("å¼€é€šæˆ–ç»­è´¹å¤§èˆªæµ·")]
+                                        [t._v("开通或续费大航海")]
                                       )
                                     : t._e(),
                                   t.medalInfo.level <= 20
-                                    ? n("span", [t._v("ç›´æŽ¥çªç ´20çº§å“¦~")])
+                                    ? n("span", [t._v("直接突破20级哦~")])
                                     : t._e(),
                                 ])
                               : t._e(),
@@ -36885,10 +36817,10 @@
                         rawName: "v-click-report-new",
                         value: {
                           eventName: "liveroom_anchor_click",
-                          customData: { tag_name: "æ’­æ”¾å™¨ä¸Šæ–¹æ˜µç§°" },
+                          customData: { tag_name: "播放器上方昵称" },
                         },
                         expression:
-                          "{eventName: 'liveroom_anchor_click', customData: {tag_name: 'æ’­æ”¾å™¨ä¸Šæ–¹æ˜µç§°'}}",
+                          "{eventName: 'liveroom_anchor_click', customData: {tag_name: '播放器上方昵称'}}",
                       },
                     ],
                     staticClass:
@@ -36923,7 +36855,7 @@
                             },
                             [
                               n("p", { staticClass: "hover-description" }, [
-                                t._v("ä¸»æ’­ SAN å€¼"),
+                                t._v("主播 SAN 值"),
                               ]),
                             ]
                           )
@@ -36944,9 +36876,7 @@
                         },
                         [
                           n("p", { staticClass: "hover-description" }, [
-                            t._v(
-                              "ä¸»æ’­ç§¯åˆ†ï¼šä¸»æ’­æ¯æ”¶åˆ° 100 ç“œå­èŽ·å¾— 1 ç‚¹ç§¯åˆ†"
-                            ),
+                            t._v("主播积分：主播每收到 100 瓜子获得 1 点积分"),
                           ]),
                         ]
                       )
@@ -37092,10 +37022,10 @@
                         rawName: "v-click-report-new",
                         value: {
                           eventName: "liveroom_anchor_click",
-                          customData: { tag_name: "æ’­æ”¾å™¨ä¸Šæ–¹å¤´åƒ" },
+                          customData: { tag_name: "播放器上方头像" },
                         },
                         expression:
-                          "{eventName: 'liveroom_anchor_click', customData: {tag_name: 'æ’­æ”¾å™¨ä¸Šæ–¹å¤´åƒ'}}",
+                          "{eventName: 'liveroom_anchor_click', customData: {tag_name: '播放器上方头像'}}",
                       },
                     ],
                     staticClass: "room-cover dp-i-block p-relative bg-cover",
@@ -37362,10 +37292,10 @@
         },
         a =
           (((r = {})[i.giftRank] = {
-            desc: "ä¸ƒæ—¥æ¦œæ˜¯è¿‘ä¸ƒæ—¥æŠ•å–‚é‡‘é“¶ç“œå­çš„æŽ’åå“¦~",
+            desc: "七日榜是近七日投喂金银瓜子的排名哦~",
           }),
           r),
-        s = { FALLBACK_ERROR_MSG: "è¿”å›ž Code éž 0" };
+        s = { FALLBACK_ERROR_MSG: "返回 Code 非 0" };
     },
     function (t, e, n) {
       "use strict";
@@ -37406,47 +37336,47 @@
         o = {
           NAVBAR_SCROLLING_HIDE_OFFSET: 40,
           EMOJI_LIST: [
-            "(âŒ’â–½âŒ’)",
-            "ï¼ˆï¿£â–½ï¿£ï¼‰",
-            "(=ãƒ»Ï‰ãƒ»=)",
-            "(ï½€ãƒ»Ï‰ãƒ»Â´)",
-            "(ã€œï¿£â–³ï¿£)ã€œ",
-            "(ï½¥âˆ€ï½¥)",
-            "(Â°âˆ€Â°)ï¾‰",
-            "(ï¿£3ï¿£)",
-            "â•®(ï¿£â–½ï¿£)â•­",
-            "_(:3ã€âˆ )_",
-            "( Â´_ã‚ï½€)",
-            "â†_â†",
-            "â†’_â†’",
+            "(⌒▽⌒)",
+            "（￣▽￣）",
+            "(=・ω・=)",
+            "(｀・ω・´)",
+            "(〜￣△￣)〜",
+            "(･∀･)",
+            "(°∀°)ﾉ",
+            "(￣3￣)",
+            "╮(￣▽￣)╭",
+            "_(:3」∠)_",
+            "( ´_ゝ｀)",
+            "←_←",
+            "→_→",
             "(<_<)",
             "(>_>)",
-            "(;Â¬_Â¬)",
-            '("â–”â–¡â–”)/',
-            "(ï¾ŸÐ”ï¾Ÿâ‰¡ï¾ŸÐ´ï¾Ÿ)!?",
-            "Î£(ï¾ŸÐ´ï¾Ÿ;)",
-            "Î£( ï¿£â–¡ï¿£||)",
-            "(Â´ï¼›Ï‰ï¼›`)",
-            "ï¼ˆ/TÐ”T)/",
-            "(^ãƒ»Ï‰ãƒ»^ )",
-            "(ï½¡ï½¥Ï‰ï½¥ï½¡)",
-            "(â—ï¿£(ï½´)ï¿£â—)",
-            "Îµ=Îµ=(ãƒŽâ‰§âˆ‡â‰¦)ãƒŽ",
-            "(Â´ï½¥_ï½¥`)",
+            "(;¬_¬)",
+            '("▔□▔)/',
+            "(ﾟДﾟ≡ﾟдﾟ)!?",
+            "Σ(ﾟдﾟ;)",
+            "Σ( ￣□￣||)",
+            "(´；ω；`)",
+            "（/TДT)/",
+            "(^・ω・^ )",
+            "(｡･ω･｡)",
+            "(●￣(ｴ)￣●)",
+            "ε=ε=(ノ≧∇≦)ノ",
+            "(´･_･`)",
             "(-_-#)",
-            "ï¼ˆï¿£ã¸ï¿£ï¼‰",
-            "(ï¿£Îµ(#ï¿£) Î£",
-            "ãƒ½(`Ð”Â´)ï¾‰",
-            "ï¼ˆ#-_-)â”¯â”â”¯",
-            "(â•¯Â°å£Â°)â•¯(â”´â€”â”´",
-            "â†â—¡â†",
-            "( â™¥Ð´â™¥)",
-            "Î£>â€•(ã€ƒÂ°Ï‰Â°ã€ƒ)â™¡â†’",
-            "â„(â„ â„â€¢â„Ï‰â„â€¢â„ â„)â„",
-            "(â•¬ï¾ŸÐ´ï¾Ÿ)â–„ï¸»â”»â”³â•ä¸€",
-            "ï½¥*ï½¥:â‰¡(ã€€Îµ:)",
-            "(æ±—)",
-            "(è‹¦ç¬‘)",
+            "（￣へ￣）",
+            "(￣ε(#￣) Σ",
+            "ヽ(`Д´)ﾉ",
+            "（#-_-)┯━┯",
+            "(╯°口°)╯(┴—┴",
+            "←◡←",
+            "( ♥д♥)",
+            "Σ>―(〃°ω°〃)♡→",
+            "⁄(⁄ ⁄•⁄ω⁄•⁄ ⁄)⁄",
+            "(╬ﾟдﾟ)▄︻┻┳═一",
+            "･*･:≡(　ε:)",
+            "(汗)",
+            "(苦笑)",
           ],
           PENURY_GIFT_VALUE: 1e3,
           PENURY_GIFT_ID: [1],
@@ -37816,7 +37746,7 @@
               return e("div", { staticClass: "empty" }, [
                 e("div", { staticClass: "no-medal" }),
                 e("span", { staticClass: "no-medal-desc" }, [
-                  this._v("å“Žï¼Ÿå•¥éƒ½æ²¡åŠ è½½å‡ºæ¥å‘¢ï½ž"),
+                  this._v("哎？啥都没加载出来呢～"),
                 ]),
               ]);
             },
@@ -37907,9 +37837,9 @@
                       return t.abrupt("return", { data: e, error: null });
                     case 3:
                       return t.abrupt("return", {
-                        error: new Error("activity_init_info æ•°æ®å¼‚å¸¸"),
+                        error: new Error("activity_init_info 数据异常"),
                         errorType: "caution",
-                        errorMsg: "activity_init_info æ•°æ®å¼‚å¸¸",
+                        errorMsg: "activity_init_info 数据异常",
                         code: 500,
                         data: null,
                       });
@@ -37966,7 +37896,7 @@
         b = { school: { isTwoBg: !1 } },
         y = { cdName: "ACTIVITY_RECEIVE_CD" },
         w = { cdName: "ACTIVITY_WELCOME_CD" },
-        k = { FALLBACK_ERROR_MSG: "è¿”å›ž Code éž 0" },
+        k = { FALLBACK_ERROR_MSG: "返回 Code 非 0" },
         I = {
           assetsDir: "./../../../assets/activity",
           picFileName: {
@@ -38093,7 +38023,7 @@
                       t.next = 12;
                       break;
                     case 11:
-                      g.print("error", "[æ´»åŠ¨æ¨¡å—åˆå§‹åŒ–å¤±è´¥]");
+                      g.print("error", "[活动模块初始化失败]");
                     case 12:
                     case "end":
                       return t.stop();
@@ -38232,7 +38162,7 @@
                           case 13:
                             this.linkMsg(
                               r,
-                              "å±è”½æˆåŠŸï¼Œå†ä¹Ÿè§ä¸åˆ° TA äº†~ " +
+                              "屏蔽成功，再也见不到 TA 了~ " +
                                 A.randomEmoji.helpless(),
                               "success"
                             ),
@@ -38242,7 +38172,7 @@
                           case 17:
                             (e.prev = 17),
                               (e.t0 = e.catch(3)),
-                              O("modules/block-service åŠ è½½å¤±è´¥", e.t0);
+                              O("modules/block-service 加载失败", e.t0);
                           case 20:
                           case "end":
                             return e.stop();
@@ -38281,7 +38211,7 @@
                           case 5:
                             (e = t.sent),
                               (0, e.openReportPanel)({
-                                title: "ä¸¾æŠ¥å¼¹å¹•",
+                                title: "举报弹幕",
                                 url: "/room_ex/v1/Danmu/danmuReport",
                                 reportUrl: "/room_ex/v1/Danmu/forDanmuReason",
                                 uid: this.uid,
@@ -38298,7 +38228,7 @@
                           case 11:
                             (t.prev = 11),
                               (t.t0 = t.catch(2)),
-                              O("modules/danmaku-report åŠ è½½å¤±è´¥", t.t0);
+                              O("modules/danmaku-report 加载失败", t.t0);
                           case 14:
                           case "end":
                             return t.stop();
@@ -38339,7 +38269,7 @@
         [
           Object(_.Prop)({
             type: String,
-            default: "ç¥žç§˜ç”¨æˆ· " + A.randomEmoji.happy(),
+            default: "神秘用户 " + A.randomEmoji.happy(),
           }),
         ],
         L.prototype,
@@ -38420,10 +38350,10 @@
                             rawName: "v-click-report-new",
                             value: {
                               eventName: "liveroom_user_click",
-                              customData: { tag_name: "å¼¹å¹•åŒº" },
+                              customData: { tag_name: "弹幕区" },
                             },
                             expression:
-                              "{eventName: 'liveroom_user_click', customData: {tag_name: 'å¼¹å¹•åŒº'}}",
+                              "{eventName: 'liveroom_user_click', customData: {tag_name: '弹幕区'}}",
                           },
                         ],
                         staticClass: "clickable bili-link",
@@ -38432,7 +38362,7 @@
                           target: "_blank",
                         },
                       },
-                      [n("span", [t._v("åŽ» TA çš„ä¸ªäººç©ºé—´")])]
+                      [n("span", [t._v("去 TA 的个人空间")])]
                     ),
                   ]),
                   n("div", { staticClass: "block-this-guy" }, [
@@ -38442,7 +38372,7 @@
                         staticClass: "clickable bili-link pointer",
                         on: { click: t.blockUser },
                       },
-                      [n("span", [t._v("å±è”½å‘é€è€…")])]
+                      [n("span", [t._v("屏蔽发送者")])]
                     ),
                   ]),
                   n("div", { staticClass: "report-this-guy" }, [
@@ -38452,7 +38382,7 @@
                         staticClass: "clickable bili-link pointer",
                         on: { click: t.report },
                       },
-                      [n("span", [t._v("ä¸¾æŠ¥é€‰ä¸­å¼¹å¹•")])]
+                      [n("span", [t._v("举报选中弹幕")])]
                     ),
                   ]),
                   t.isAdmin
@@ -38463,7 +38393,7 @@
                             staticClass: "clickable bili-link pointer",
                             on: { click: t.addToBlackList },
                           },
-                          [n("span", [t._v("æ·»åŠ è‡³é»‘åå•")])]
+                          [n("span", [t._v("添加至黑名单")])]
                         ),
                       ])
                     : t._e(),
@@ -39275,8 +39205,7 @@
             a()(this, t),
               (this.freezeTime = 0),
               (this.COOKIE_KEY = "PK_GIFT_TOAST"),
-              (this.FREEZE_TIME_TIP =
-                "æœ¬åœºå¤§ä¹±æ–—å·²ç»“æŸï½žèµ é€ä¸è®¡åˆ†å•¦");
+              (this.FREEZE_TIME_TIP = "本场大乱斗已结束～赠送不计分啦");
           }
           return (
             (t.prototype.setFreezeTime = function (t) {
@@ -39302,16 +39231,14 @@
               var r = [l.c.pre, l.c.end, l.c.freeze],
                 i = {
                   immune: {
-                    out: "å¤§ä¹±æ–—ä¸­èµ é€å¯å…ç–«æœ¬åœºç»æ€å“¦ï½ž",
-                    own: "ä¸»æ’­å·²å…ç–«ç»æ€ï¼Œå¯ä»¥ç•™ç€ä¸‹æ¬¡ç”¨å“¦ï½ž",
-                    normal: "èµ é€åŽä¸»æ’­å¯å…æœ¬åœºè¢«ç»æ€",
+                    out: "大乱斗中赠送可免疫本场绝杀哦～",
+                    own: "主播已免疫绝杀，可以留着下次用哦～",
+                    normal: "赠送后主播可免本场被绝杀",
                   },
                   boom: {
-                    out:
-                      "å¤§ä¹±æ–—ä¸­æŠ•å–‚å¯ä½¿ä¸»æ’­æ‹¥æœ‰æŠ—æš´å±žæ€§å“¦ï½ž",
-                    own: "ä¸»æ’­å·²æŠ—æš´ï¼Œç•™ç€ä¸‹æ¬¡ç”¨å§ï½ž",
-                    normal:
-                      "æŠ•å–‚ä½¿ä¸»æ’­æ‹¥æœ‰æŠ—æš´å±žæ€§ï¼Œå‡å°‘å¯¹æ‰‹æš´å‡»æ”¶ç›Šå“¦ï½ž",
+                    out: "大乱斗中投喂可使主播拥有抗暴属性哦～",
+                    own: "主播已抗暴，留着下次用吧～",
+                    normal: "投喂使主播拥有抗暴属性，减少对手暴击收益哦～",
                   },
                 }[n];
               return G()(t) || G()(e) || r.includes(t)
@@ -39420,7 +39347,7 @@
                               t.abrupt("return", {
                                 error: t.t0,
                                 errorType: "error",
-                                errorMsg: "ç½‘ç»œé”™è¯¯æˆ–æœåŠ¡å™¨å®•æœº",
+                                errorMsg: "网络错误或服务器宕机",
                                 data: null,
                               })
                             );
@@ -40154,7 +40081,7 @@
                       return e.abrupt("return", Object(tt.b)(r.data));
                     case 8:
                       return (
-                        rt("ä¿¡æ¯å¡è¯·æ±‚å¤±è´¥", r.errorMsg),
+                        rt("信息卡请求失败", r.errorMsg),
                         e.abrupt("return", null)
                       );
                     case 10:
@@ -40252,28 +40179,25 @@
             return (
               (n.qrUrl = ""),
               (n.fansClubPrivilegeList = [
-                { title: "é¢†å–å°å¿ƒå¿ƒ", desc: "5åˆ†é’Ÿå¾—1é¢—" },
-                { title: "ä¸“å±žå¼¹å¹•é¢œè‰²", desc: "è§£é”å¼¹å¹•ç­‰çº§ç‰¹æƒ" },
-                {
-                  title: "è§£é”ä¸“å±žç¤¼ç‰©",
-                  desc: "ä¸“å±žç¤¼ç‰©è´­ä¹°èµ„æ ¼",
-                },
+                { title: "领取小心心", desc: "5分钟得1颗" },
+                { title: "专属弹幕颜色", desc: "解锁弹幕等级特权" },
+                { title: "解锁专属礼物", desc: "专属礼物购买资格" },
               ]),
               (n.vipPrivilegeList = [
                 {
                   icon_class: "identity",
-                  title: "èº«ä»½æ ‡è¯†",
-                  desc: "äº®å‡ºèˆ°é˜Ÿèº«ä»½",
+                  title: "身份标识",
+                  desc: "亮出舰队身份",
                 },
                 {
                   icon_class: "approach",
-                  title: "å…¥åœºç‰¹æ•ˆ",
-                  desc: "ä¸“äº«å…¥åœºç‰¹æƒ",
+                  title: "入场特效",
+                  desc: "专享入场特权",
                 },
                 {
                   icon_class: "to-21",
-                  title: "ç›´å‡21çº§",
-                  desc: "å‹‹ç« çªç ´20çº§",
+                  title: "直升21级",
+                  desc: "勋章突破20级",
                 },
               ]),
               n
@@ -40404,15 +40328,15 @@
                       },
                       [
                         n("span", { staticClass: "small-font" }, [
-                          t._v("ç›´å‡21çº§"),
+                          t._v("直升21级"),
                         ]),
-                        n("span", { staticClass: "small-font" }, [t._v("ï¼ˆ")]),
+                        n("span", { staticClass: "small-font" }, [t._v("（")]),
                         n("span", {
                           staticClass: "icon-bg dp-i-block",
                           attrs: { src: "../../assets/gold-seed@2x.png" },
                         }),
                         n("span", { staticClass: "small-font" }, [
-                          t._v("198000ï¼‰"),
+                          t._v("198000）"),
                         ]),
                       ]
                     ),
@@ -40453,15 +40377,15 @@
                       },
                       [
                         n("span", { staticClass: "small-font" }, [
-                          t._v("æŠ•å–‚å…¥å›¢"),
+                          t._v("投喂入团"),
                         ]),
-                        n("span", { staticClass: "small-font" }, [t._v("ï¼ˆ")]),
+                        n("span", { staticClass: "small-font" }, [t._v("（")]),
                         n("span", {
                           staticClass: "icon-bg dp-i-block",
                           attrs: { src: "../../assets/gold-seed@2x.png" },
                         }),
                         n("span", { staticClass: "small-font" }, [
-                          t._v("9900ï¼‰"),
+                          t._v("9900）"),
                         ]),
                       ]
                     ),
@@ -40476,14 +40400,14 @@
               var t = this.$createElement,
                 e = this._self._c || t;
               return e("div", { staticClass: "privilege-top" }, [
-                e("span", [this._v("ä¸“å±žç‰¹æƒ 6/6")]),
+                e("span", [this._v("专属特权 6/6")]),
               ]);
             },
             function () {
               var t = this.$createElement,
                 e = this._self._c || t;
               return e("div", { staticClass: "privilege-top" }, [
-                e("span", [this._v("ä¸“å±žç‰¹æƒ 3/6")]),
+                e("span", [this._v("专属特权 3/6")]),
               ]);
             },
           ],
@@ -40571,7 +40495,7 @@
                       [t._v(t._s(t.anchorName))]
                     ),
                     n("span", { staticClass: "dp-i-block v-middle" }, [
-                      t._v("çš„ç²‰ä¸å›¢"),
+                      t._v("的粉丝团"),
                     ]),
                   ]),
                   t.medalName
@@ -40592,7 +40516,7 @@
                         n("div", { staticClass: "dp-i-block club-desc" }, [
                           n("span", { staticClass: "self-icon-arrow-left" }),
                           n("div", { staticClass: "dp-i-block" }, [
-                            t._v("ç²‰ä¸å›¢"),
+                            t._v("粉丝团"),
                           ]),
                           n(
                             "span",
@@ -40875,7 +40799,7 @@
       n.d(e, "a", function () {
         return i;
       });
-      var r = [{ unit: "ä¸‡", val: 1e4 }];
+      var r = [{ unit: "万", val: 1e4 }];
       function i(t) {
         var e = void 0;
         return (
@@ -40910,8 +40834,8 @@
         });
       var r,
         i = n(131),
-        o = { FALLBACK_ERROR_MSG: "è¿”å›ž Code éž 0" },
-        a = { 1: "æ€»ç£", 2: "æç£", 3: "èˆ°é•¿" };
+        o = { FALLBACK_ERROR_MSG: "返回 Code 非 0" },
+        a = { 1: "总督", 2: "提督", 3: "舰长" };
       ((r = {})[i.a.zong] = 1), (r[i.a.ti] = 2), (r[i.a.jian] = 3);
     },
     ,
@@ -40922,29 +40846,23 @@
       });
       var r = {
         config: {
-          action: "å¼€å¯é£Žæš´",
-          count: "èŠ‚å¥å€çŽ‡",
-          msgEnd:
-            "èŠ‚å¥é£Žæš´å¸­å·è€Œè¿‡â•®(ï¿£â–½ï¿£)â•­ï¼Œæ‰‹æ…¢æ²¡æœ‰é¢†åˆ°åªèƒ½ç­‰ä¸‹ä¸€æ¬¡å•¦ï¼",
-          title: "èŠ‚å¥é£Žæš´",
+          action: "开启风暴",
+          count: "节奏倍率",
+          msgEnd: "节奏风暴席卷而过╮(￣▽￣)╭，手慢没有领到只能等下一次啦！",
+          title: "节奏风暴",
         },
         privateInfo: [
-          {
-            content: "æœªè®¾ç½®è‡ªå®šä¹‰å¼¹å¹•",
-            id: "",
-            reason: "",
-            status: -3,
-          },
+          { content: "未设置自定义弹幕", id: "", reason: "", status: -3 },
         ],
         publicInfo: [
-          { id: "1", content: "å‰æ–¹é«˜èƒ½é¢„è­¦ï¼Œæ³¨æ„è¿™ä¸æ˜¯æ¼”ä¹ " },
-          { id: "2", content: "æˆ‘ä»Žæœªè§è¿‡å¦‚æ­¤åŽšé¢œæ— è€»ä¹‹äºº" },
-          { id: "3", content: "é‚£ä¸‡ä¸€èµ¢äº†å‘¢" },
-          { id: "4", content: "ä½ ä»¬åŸŽé‡ŒäººçœŸä¼šçŽ©" },
-          { id: "5", content: "å·¦èˆ·å¼¹å¹•å¤ªè–„äº†" },
-          { id: "6", content: "åˆ«è¿™æ ·ï¼Œæˆ‘ä»¬ä¹¡ä¸‹äººè¥å…»è·Ÿä¸ä¸Š" },
-          { id: "7", content: "è¦ä¼˜é›…ï¼Œä¸è¦æ±¡" },
-          { id: "8", content: "æˆ‘é€‰æ‹©ç‹—å¸¦" },
+          { id: "1", content: "前方高能预警，注意这不是演习" },
+          { id: "2", content: "我从未见过如此厚颜无耻之人" },
+          { id: "3", content: "那万一赢了呢" },
+          { id: "4", content: "你们城里人真会玩" },
+          { id: "5", content: "左舷弹幕太薄了" },
+          { id: "6", content: "别这样，我们乡下人营养跟不上" },
+          { id: "7", content: "要优雅，不要污" },
+          { id: "8", content: "我选择狗带" },
         ],
       };
     },
@@ -42297,9 +42215,9 @@
                 "https://i0.hdslb.com/bfs/vc/44c367b09a8271afa22853785849e65797e085a1.png",
               asset_animation_pic:
                 "https://i0.hdslb.com/bfs/vc/03be4c2912a4bd9f29eca3dac059c0e3e3fc69ce.gif",
-              title: "æ­å–œä¸»æ’­å¤§ä¹±æ–—èƒœåˆ©",
+              title: "恭喜主播大乱斗胜利",
               max_time: 120,
-              thank_text: "æ­å–œ<%zbcs030%>èµ¢å¾—å¤§ä¹±æ–—PKèƒœåˆ©",
+              thank_text: "恭喜<%zbcs030%>赢得大乱斗PK胜利",
               from_user: {
                 uid: 110000261,
                 uname: "zbcs030",
@@ -42320,11 +42238,10 @@
             remain_time: 30,
             num: 2e4,
             sender_uid: 213123,
-            sender_name: "å¹æ¯›æ±‚ç–µ",
+            sender_name: "吹毛求疵",
             sender_face:
               "http://i0.hdslb.com/bfs/face/7676516300d51e98201bf5c4fae8c92b90dbf8bb.jpg",
-            require_message:
-              "å‚ä¸Žè‡ªåŠ¨å…³æ³¨ï¼š<%å¬å”¤çš„é‡Žé¸¡%>,<%zbcs010%>",
+            require_message: "参与自动关注：<%召唤的野鸡%>,<%zbcs010%>",
             server_hash: 1,
           },
         },
@@ -42990,7 +42907,7 @@
                       try {
                         Object(Y.c)(), Object(z.a)(), l.default.use(Z.default);
                       } catch (t) {
-                        nt("ç‚¹å‡»åŸ‹ç‚¹ä¸ŠæŠ¥åˆå§‹åŒ–å¤±è´¥");
+                        nt("点击埋点上报初始化失败");
                       }
                       if ((Object(J.a)("preloadStart"), b.a)) {
                         t.next = 6;
@@ -43204,7 +43121,7 @@
                 clearTimeout(r), n(0);
               };
             (r = setTimeout(function () {
-              i("æ’­æ”¾å™¨è¶…æ—¶"), o();
+              i("播放器超时"), o();
             }, 1800)),
               t.on("firstLoadedMetaData", o);
           } else n(t ? 1 : 2);
