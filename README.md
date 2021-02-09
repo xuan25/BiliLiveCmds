@@ -100,6 +100,9 @@
 |data.uname|用户名|
 |data.msg_type|互动类型; ID见备注|
 |data.timestamp|时间戳|
+|data.is_spread|是否为推广; 0=否,1=是|
+|data.spread_info|推广信息 (主题色号)|
+|data.spread_desc|推广说明|
 
 ### 直播间禁言
 
